@@ -15,17 +15,19 @@ function [theta,w]=axis_angle_code(R)
 if (det(R)~=1 || any(any(R*transpose(R)~=eye(3))) || any(size(R)~=([3,3])))
     error('make sure R is part of SO(3)')
 
-elseif (any(R==eye(3)))
+elseif (isequal(R,eye(3)))
     %2. if R is an ID matrix, return theta=0 and w as undifined
     theta=0;
     w="undefinied";
 
+    %these below statements were written using the matrix logorithem of a
+    %rotation matrix, definied in slide 11 of week 2 lecture 2
 elseif (trace(R)==-1)
     %3. if trace R is -1, than theta is pi and we are in a singularity case
     theta=pi;
     w=(1/sqrt(2*(1+R(3,3))))*[R(1,3);R(2,3);1+R(3,3)];
 
-else %if this line is reached, R is in so(3), and trace(R)~=-1.
+else %if this line is reached, R is in so(3), and trace(R)/=-1.
     theta=acos(.5*(trace(R)-1));
-    w=(1/(2*sin(theta))*(R-transpose(R)));
+    w=(1/(2*sin(theta)))*(R-transpose(R));
 end

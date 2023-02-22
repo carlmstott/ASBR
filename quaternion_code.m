@@ -17,9 +17,9 @@ if (det(R)~=1 || any(any(R*transpose(R)~=eye(3))) || any(size(R)~=([3,3])))
 error('make sure R is part of SO(3)')
 
 else %now that R is confirmed to be in SO(3), we can create our 
-     %quarturnian.
+     %quarturnian, used w3l1 slide 14 as reference
      Q(1,1)=.5*sqrt(R(1,1)+R(2,2)+R(3,3)+1);
-     Q(2,1)=sgn(R(3,2)-R(2,3))*sqrt(R(1,1)-R(2,2)-R(3,3)+1);
-     Q(3,1)=sgn(R(1,3)-R(3,1))*sqrt(R(2,2)-R(3,3)-R(1,1)+1);
-     Q(4,1)=sgn(R(2,1)-R(1,2))*sqrt(R(3,3)-R(1,1)-R(2,2)+1);
+     Q(2,1)=.5*(sgn(R(3,2)-R(2,3))*sqrt(R(1,1)-R(2,2)-R(3,3)+1));
+     Q(3,1)=.5*(sgn(R(1,3)-R(3,1))*sqrt(R(2,2)-R(3,3)-R(1,1)+1));
+     Q(4,1)=.5*(sgn(R(2,1)-R(1,2))*sqrt(R(3,3)-R(1,1)-R(2,2)+1));
 end

@@ -18,9 +18,12 @@ end
 
 %now that I'm sure we are dealing with a matrix in SO(3), I can
 % define theta, phi, and psi for my ZYZ orientation
-phi= atan2(-R(2,3),-R(1,3));
+
+
+% choosing theta between (0,pi), week 3 lecture 1 slide 8
+phi= atan2(R(2,3),R(1,3));
 theta= atan2(-sqrt((R(1,3)^2)+(R(2,3)^2)),R(3,3));
-psi= atan2(-R(3,2),R(3,1));
+psi= atan2(R(3,2),-R(3,1));
 
 if(sin(theta)==0) 
     %this presents a singularity in the ZYZ representation,
@@ -30,11 +33,12 @@ else
     ZYZ=[phi;theta;psi];
 end
 
-%now I will redefine my phi, theta, and psi for my ZXY orientation
+%now I will redefine my phi, theta, and psi for my ZXY orientation W3L1
+%slide 9. Using -(3,1) to find theta becasue (3,1)=-sin(theta)
 if ((pi/2) > asin(-R(3,1))) && (asin(-R(3,1)) > (-pi/2))
     %the above line checks to see if theta is between -pi/2 and pi/2,
     %theta is found by examining R(3,1) as shown in slide 10 of the
-    %week 3 lecture 1 slideshow.
+    %w3L1 slide 10
     phi=atan2(R(2,1),R(1,1));
     theta=atan2(-R(3,1),sqrt((R(3,2)^2)+(R(3,3)^2)));
     psi=atan2(R(3,2),R(3,3));
