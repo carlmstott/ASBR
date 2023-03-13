@@ -9,14 +9,27 @@ for i=theta.length
 w=robot.S(i).w;
 v=robot.S(i).s;
 
+
+%ok so there are 2 conditions, condition #1 is if |w|=1
+if isequal(w,[0;0;0]) 
+
 UpperRTerm=(eye(3)*theta(i)+(1-cos(theta(i))*w+(theta-sin(theta(i))))*(w*w))*v;
 %this is upper right term of matrix exponental eq
 
 %now to do rodriguez on skew(w)
 Sw=skew(w);
-expwskew=eye(3)+sin(theta(i))*Sw+(1-cos(theta(i))*(Sw*Sw));
+TopRight3x3=eye(3)+sin(theta(i))*Sw+(1-cos(theta(i))*(Sw*Sw));
 
-output(:,:,i)=[expwskew UpperRTerm;0 0 0 1];
+
+else %if we get in here, the joint is prysmatic and the way to get
+     %exponenta form of the twist vector is different.
+
+UpperRTerm=v*theta;
+
+TopRight3x3=eye(3);
+end
+    
+output(:,:,i)=[TopRight3x3 UpperRTerm;0 0 0 1];
 end
 
 end
