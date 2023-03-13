@@ -1,6 +1,11 @@
-function output=Mexp(robot)
+function output=MexpS(robot)
 
-theta = sym('theta', [robot.numJoints 1]);
+%this fucntion calcualtes the 4x4 matrix exponental form of the spacial
+%twist vectors of my robot
+
+theta = sym('theta', [robot.numJoints 1]); %for now our theta's are
+    %symbolic, this will change later
+
 
 for i=theta.length 
 
