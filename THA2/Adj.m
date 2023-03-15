@@ -1,3 +1,4 @@
+%this function was written by carl stott on 3/8/23
 function adjoint= Adj(x)
 
 %this function takes in the 4x4 matrix exponental form of a twist vector
