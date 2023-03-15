@@ -5,14 +5,13 @@
 %
 %Returns: jac, body jacobian
 
-function jac=J_body(robot)
+function jac=J_body(robot, jointAngles)
 r=robot;
-B=[r.B.w; r.B.v]; %this gives us our twist vectors from our w's and v's
  
-j=length(B); %number of joints
+j=length(r.B); %number of joints
 T=eye(4); %placeholder
-jac=zeros(6,j); %this is computaonally faster
-MexpBlist=MexpB(robot);
+jac=zeros(6,j); %computaonally faster
+
 
 for i=j:-1:1 %this loop will increment backward, so I can caululate the
              %last column of my body jacobian first.
