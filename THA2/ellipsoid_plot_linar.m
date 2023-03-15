@@ -1,7 +1,9 @@
 %This function was written by carl stott on 3/15
 %Brief: takes in a jacobian and returns a 4,3 matrix where top row is
 %magnatide of principal axis of the ellipsoid and the bottom 3 rows are the
-%directions of the axis's of the manuverability elipsoid.
+%directions of the axis's of the manuverability elipsoid in columns. ex,
+%column 1 of the output will have a scaler magnitude on top and direction
+%of axis in the bottom 3 spots
 %Params: jacobian
 %
 %
