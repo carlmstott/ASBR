@@ -7,14 +7,14 @@
 %
 %Returns: 3,2 matrix where each row is the respective direction and 
 % magnitude of the principal axis of the liniar manipuability elipsoid.
-function elipsoidDimentions=ellipsoid_plot_linar(jacobian)
+function elipsoidDimentions=ellipsoid_plot_angular(jacobian)
 
-J_v=jacobian(4:6,:); %refrence: W8L21S7
-J_vt=transpose(J_v);
+J_a=jacobian(1:3,:); %refrence: W8L21S7
+J_at=transpose(J_a);
 
-A_v=J_v*J_vt; %if everything else is correct this should be a 3x3
+A_a=J_a*J_at; %if everything else is correct this should be a 3x3
 
-[V,D]=eig(A_v); %"produces a diagonal matrix D of eigenvalues and 
+[V,D]=eig(A_a); %"produces a diagonal matrix D of eigenvalues and 
         %a full matrix V whose columns are the corresponding eigenvectors  
         %so that A*V = V*D." -matlab tooltip
 
