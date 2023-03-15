@@ -3,7 +3,7 @@
 %Params: robot, robot object.
 %JointAngles, list of joint angles
 %
-%Returns: BodyK, the orientation of the end effector
+%Returns: 
 function BodyK=FK_body(robot,jointAngles)
 
 if length(jointAngles) ~=length(robot.B)

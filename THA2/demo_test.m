@@ -32,4 +32,5 @@ B(4).v = [-1;0;2];
 B(5).w = [0; 0.707; 0.707];
 B(5).v = [0.707;0.707;-0.707];
 
+%we need to define a theta vector here
 robot = defineRobot(M, S, B)

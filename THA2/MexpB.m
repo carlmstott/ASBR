@@ -1,10 +1,12 @@
+%I dont think this function is goint to be used like at all
+
 function output=MexpB(robot)
 
 %this fucntion calcualtes the 4x4 matrix exponental form of the body
 %twist vectors of my robot
 
 theta = sym('theta', [robot.numJoints 1]); %for now our theta's are
-    %symbolic, this will change later
+    %symbolic, THIS NEEDS TO BE MOVED TO THE DEMO TEST FUNCTION
 
 for i=theta.length 
 
