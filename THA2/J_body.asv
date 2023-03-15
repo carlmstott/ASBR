@@ -1,4 +1,3 @@
-%this function was written by Carl Stott on 3/15
 %Brief: creates the body jacobian for the robot's current orientation
 %
 %Params: robot, robot object.
@@ -30,7 +29,6 @@ T=T*inv(MexpB(:,:,i+1)); %this is the matrix im going to be taking the adjoint o
                             %should increment such that I tack on the
                             %inverse of e^-1(B(i+1))(theta+1) on the end of
                             %my last iteration's T
- 
 
 jac(:,i)=Adj(T)*B(i);       %calculating my ith column of my body jacobian
 

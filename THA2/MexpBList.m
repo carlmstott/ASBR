@@ -1,3 +1,4 @@
+%this function was written by Carl Stott on 3/15
 %Brief: takes robot object and vector of joint angles jointAngles and
 %returns stack of matrix exponental forms of twist for each joint WRT body
 %frame.

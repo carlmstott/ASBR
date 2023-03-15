@@ -1,3 +1,4 @@
+%This function was written by carl stott on 3/15
 %Brief: takes robot object and vector of joint angles jointAngles and
 %returns the fwd kinumatics in the end effector frame
 %Params: robot, robot object.
