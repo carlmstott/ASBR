@@ -24,3 +24,7 @@ B(:, 5) = [0; 0.707; 0.707; 0.707; 0.707; -0.707];
 
 %we need to define a theta vector here
 [robot, err] = defineRobot(M, S, B);
+
+jointAngles = sym('theta', [robot.numJoints 1]);
+
+[T, err] = FK_space(robot,jointAngles)
