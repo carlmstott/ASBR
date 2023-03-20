@@ -11,8 +11,8 @@
 
 function R=matExpRodrigues(w,theta)
 w_hat = skew(w);
-if(norm(w_hat) < 1e-7)
-    % if norm of omega_hat is less than 1e-7 (almost zero), set rotation to identity.
+if(norm(w) < 1e-7)
+    % if norm of omega is less than 1e-7 (almost zero), set rotation to identity.
     R = eye(3);
 else
     % Rodrigue's formula
