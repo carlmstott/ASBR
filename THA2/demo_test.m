@@ -28,3 +28,5 @@ B(:, 5) = [0; 0.707; 0.707; 0.707; 0.707; -0.707];
 jointAngles = sym('theta', [robot.numJoints 1]);
 
 [T, err] = FK_space(robot,jointAngles)
+
+J = J_space(robot,jointAngles)

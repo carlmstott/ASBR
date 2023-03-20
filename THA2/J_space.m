@@ -1,12 +1,15 @@
  %% need to revisit and comment
 
-function J = J_space(robot, thetaList)
-T  = eye(4)
-for i = 1: robot.numJoints
-    if(i ~= 1)
-    T  = adjoint(T * transMatExpScrew(robot.S(i)));
-    end
-    J(:, 1) = T * robot.S(i);
+function Js = J_space(robot, jointAngles)
+
+S = robot.S;
+
+T  = eye(4);
+for i = 2: robot.numJoints
+   
+    T  = T * transMatExpScrew(S(:, i-1), jointAngles(i-1));
+    J(:, i-1) = Adj(T) * S(:, i);
+
 end
-J= 0; % change
+Js = [S(:,1) J];
 end
