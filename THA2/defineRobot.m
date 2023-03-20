@@ -15,17 +15,20 @@ end
 % Calculate SE(3) form for base screw axes, S
 S_se_3 = eye(4);
 for i=1:r.numJoints
-    S_se_3(:, :, i) = [skew(S(i).w) S(i).v;0 0 0 0];
+    screw_axis = S(:, i);
+    S_se_3(:, :, i) = [skew(screw_axis(1:3)) screw_axis(4:6);0 0 0 0];
 end
 r.S_se_3 = S_se_3; 
 
 % Calculate SE(3) form for end effector screw axes, B
 B_se_3 = eye(4);
 for i=1:r.numJoints
-    B_se_3(:, :, i) = [skew(S(i).w) S(i).v;0 0 0 0];
+    screw_axis = B(:, i);
+    B_se_3(:, :, i) = [skew(screw_axis(1:3)) screw_axis(4:6);0 0 0 0];
 end
 r.B_se_3 = B_se_3; 
 
 robot = r;
+err = '0';
 
 end
