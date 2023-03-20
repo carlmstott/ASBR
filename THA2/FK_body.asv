@@ -16,14 +16,14 @@ end
 M=robot.M;
 ScrewVectors=robot.B;
 MatrixExponentals=eye(4);
-
+L=size(A,2); %numjoints 
 
 %this loop iterates through the screw vectors of each joint and their joint
 %angles to create the correcsponding matrix exponental representation, and
 %then multiplys them all together starting with joint 1, reference: slide14
 % w6L2
 
-for i=1:robot.numJoints
+for i=1:
     MatrixExponentals=MatrixExponentals*transMatExpScrew(ScrewVectors(i),jointAngles(i));
 end
 
