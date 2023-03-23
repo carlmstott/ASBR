@@ -17,7 +17,7 @@ w_hat = skew(w);
 
 
 % Week 5 - Lecture 2 slide 11
-if(norm(w) > 1e-7)
+if(norm(w) == 0)
     % if joint is revolute
     T = [R, (eye(3) * theta + (1 - cos(theta)) * w_hat +  (theta - sin(theta))* w_hat * w_hat) * v; 0, 0, 0, 1];
 else
