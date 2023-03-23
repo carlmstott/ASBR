@@ -1,3 +1,6 @@
+%% This is a demo for the robot in Exercise 4.11 (Fig 4.17) on pg 162 of Modern Robotics by Lynch et al
+
+
 clear; clc;
 
 M = [1 0 0 3;0 1 0 0;0 0 1 0;0 0 0 1];
@@ -27,6 +30,6 @@ B(:, 5) = [0; 0.707; 0.707; 0.707; 0.707; -0.707];
 
 jointAngles = sym('theta', [robot.numJoints 1]);
 
-[T, err] = FK_space(robot,jointAngles)
+[T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
 
 J = J_space(robot,jointAngles)

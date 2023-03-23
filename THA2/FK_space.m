@@ -5,8 +5,11 @@
 % jointAngles: list of joint angles 0 to n
 % returns:
 % T: forward kinematics transformation matrix in space frame 4x4
+% jointToJointTransforms: 4x4xn dimensional matrix where each 4x4 matrix
+% represents transform from frame n-1 to frame n.
+% err: error code
 
-function [T, err] = FK_space(robot,jointAngles)
+function [T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
 
 if length(jointAngles) ~= robot.numJoints
     error("Error: make sure vector of angles has same length as robot has joints")
@@ -21,11 +24,12 @@ MatrixExponentals=eye(4);
 
 for i = 1 : robot.numJoints
     twist = robot.S(:, i);
-    MatrixExponentals = MatrixExponentals * transMatExpScrew(twist, jointAngles(i));
+    e_S_theta = transMatExpScrew(twist, jointAngles(i));
+    MatrixExponentals = MatrixExponentals * e_S_theta;
+    jointToJointTransforms(:, :, i) = e_S_theta; %#ok<AGROW,NASGU>
 end
 
 % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
 T = MatrixExponentals * robot.M;
-
 err = 0;
 end
