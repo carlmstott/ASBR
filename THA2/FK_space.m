@@ -1,4 +1,4 @@
-%brief: calculates forward kinematics in space frame
+% brief: calculates forward kinematics in space frame
 % params:
 % robot: robot object consistig of the robot's kinematic properties
 % defined in defineRobot.m 
