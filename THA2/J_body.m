@@ -1,48 +1,25 @@
-%this function was written by Carl Stott on 3/15
-%Brief: creates the body jacobian for the robot's current orientation
-%
-%Params: robot, robot object.
-%JointAngles, list of joint angles
-%
-%Returns: jac, body jacobian
-
-function jac=J_body(robot, jointAngles)
-r=robot;
- 
-j=r.numJoints; %number of joints
-T=eye(4); %placeholder
-jac=zeros(6,j); %computaonally faster
-B=r.B; %screw axis's
-
-for i=1:j
-MexpB(:,:,i)=transMatExpScrew(r.B(:,i),jointAngles(i)); %gives us a stack of 4x4 matrix expronental
-                                %forms of twist vectors
-end
+% brief: calculates robot Jacobian in end-effector frame
+% params:
+% robot: robot object consisting of the robot's kinematic properties
+% defined in defineRobot.m 
+% jointAngles: list of joint angles 0 to n
+% returns:
+% J: robot jacobian in end-effector frame 6xn 
 
 
-for i=j:-1:1 %this loop will increment backward, so I can caululate the
-             %last column of my body jacobian first.
+function Js = J_body(robot, jointAngles)
 
-if i==j %as the final column of the body jacobain is just the final twist
-        %vector, im going to attack it by itseld
-jac(:,j)=B(:,j);
-else
+B = robot.B;
 
-T=T*inv(MexpB(:,:,i+1)); %this is the matrix im going to be taking the adjoint of
-                            %I am referencing W7L2 slide 7 here. This
-                            %should increment such that I tack on the
-                            %inverse of e^-1(B(i+1))(theta+1) on the end of
-                            %my last iteration's T
- 
+Jb = B;
 
-jac(:,i)=Adj(T)*B(:,i);       %calculating my ith column of my body jacobian
+T  = eye(4);
+
+for i = (robot.numJoints -1) : -1 : 1
+   i
+    % Ref: Chapter 5, Modern Robotics
+    T  = T * transMatExpScrew(-1 * B(:, i + 1), jointAngles(i + 1))
+    Jb(:, i) = Adj(T) * B(:, i)
 
 end
 end
-
-
-end
-
-
-
-
