@@ -23,7 +23,7 @@ S(:, 5) = [-1; 0; 0; 0; 0; 2 * L];
 
 S(:, 6) = [0; 1; 0; 0; 0; 0];
 
-S = sym('S', [6, 6]); 
+B = sym('B', [6, 6]); 
 B(:, 1) = [0; 0; 1; -3 * L; 0; 0];
 
 B(:, 2) = [0; 1; 0; 0; 0; 0];
@@ -43,4 +43,6 @@ jointAngles = sym('theta', [robot.numJoints 1]);
 
 [T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
 
-J = J_space(robot,jointAngles)
+Js = J_space(robot,jointAngles)
+
+Jb = J_body(robot, jointAngles)
