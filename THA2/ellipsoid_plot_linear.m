@@ -9,7 +9,7 @@
 %
 %Returns: 3,2 matrix where each row is the respective direction and 
 % magnitude of the principal axis of the liniar manipuability elipsoid.
-function elipsoidDimentions=ellipsoid_plot_linar(jacobian)
+function elipsoidDimentions=ellipsoid_plot_linear(jacobian)
 
 J_v=jacobian(4:6,:); %refrence: W8L21S7
 J_vt=transpose(J_v);
@@ -20,6 +20,13 @@ A_v=J_v*J_vt; %if everything else is correct this should be a 3x3
         %a full matrix V whose columns are the corresponding eigenvectors  
         %so that A*V = V*D." -matlab tooltip
 
+elipsoidDimentions.eigenVectors = V;
+elipsoidDimentions.eigenValues = transpose(diag(D));
 
-elipsoidDimentions=[D(1,1), D(2,2), D(3,3);
-                    V(:,1), V(:,2), V(:,3)];
+% plot
+ellipsoid(0,0,0, sqrt(elipsoidDimentions.eigenValues(1)), ...
+    sqrt(elipsoidDimentions.eigenValues(2)), sqrt(elipsoidDimentions.eigenValues(3)))
+axis equal
+
+end
+

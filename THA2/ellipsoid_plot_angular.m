@@ -21,5 +21,10 @@ A_a=J_a*J_at; %if everything else is correct this should be a 3x3
         %so that A*V = V*D." -matlab tooltip
 
 
-elipsoidDimentions=[D(1,1), D(2,2), D(3,3);
-                    V(:,1), V(:,2), V(:,3)];
+elipsoidDimentions.eigenVectors = V;
+elipsoidDimentions.eigenValues = transpose(diag(D));
+
+% plot
+ellipsoid(0,0,0, sqrt(elipsoidDimentions.eigenValues(1)), ...
+    sqrt(elipsoidDimentions.eigenValues(2)), sqrt(elipsoidDimentions.eigenValues(3)))
+axis equal
