@@ -18,7 +18,7 @@ S = [0 0 0;
      0 -L(1) -L(1)-L(2);
      0 0 0;];
  
- B = S;
+ B = S; % as we are calculating FK in space frame, Body frame twist vectors are of no use. 
  
  robot = defineRobot(M, S, B)
 
@@ -28,7 +28,7 @@ jointAngles = sym('theta', [robot.numJoints 1])
 
 T = simplify(T)
 
-%% The answer below corresponds with the Fk calculated in the book in equations 4.1 - 4.3 on pg 137.
+%% The answer below corresponds with the FK calculated in the book in equations 4.1 - 4.3 on pg 137.
 % T =
 %  
 % [ cos(theta1 + theta2 + theta3), -sin(theta1 + theta2 + theta3), 0, L2*cos(theta1 + theta2) + L1*cos(theta1) + L3*cos(theta1 + theta2 + theta3)]
