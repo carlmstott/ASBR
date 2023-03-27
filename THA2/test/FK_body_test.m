@@ -17,7 +17,7 @@ S=Blist; %the S entry in define robot is used to track the fwd kinumatics,which 
 robot=defineRobot(M, S, Blist);
 
 
-bodyK= FK_body(robot,jointangles)
+[BodyK, jointTransformations]=FK_body(robot,jointangles);
 
 %expected output is below, which is the same as the outcome provided in the
 %example. This is a good test becasue it contains both prismatic and
