@@ -1,0 +1,20 @@
+%this script is used to test the FK_body function using the example
+%provided on the modern robotics github page:
+%(https://github.com/NxRLab/ModernRobotics/blob/master/packages/MATLAB/mr/FKinBody.m
+
+clear all;
+close all;
+
+
+M = [[-1, 0, 0, 0]; [0, 1, 0, 6]; [0, 0, -1, 2]; [0, 0, 0, 1]];
+
+Blist = [[0; 0; -1; 2; 0; 0], [0; 0; 0; 0; 1; 0], [0; 0; 1; 0; 0; 0.1]];
+
+jointangles = [pi / 2; 3; pi];
+
+S=Blist; %the S entry in define robot is used to track the fwd kinumatics,which we are not using
+
+robot=definerobot(M, S, Blist);
+
+
+[T, jointToJointTransforms, err] = FK_body(robot,jointangles)

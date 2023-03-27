@@ -9,7 +9,7 @@
 %each joint
 function BodyK=FK_body(robot,jointAngles)
 
-if length(jointAngles) ~=length(robot.B)
+if length(jointAngles) ~=length(robot.B(1,:))
     error("make sure vector of angles has same length as robot has joints")
 end
 
@@ -24,7 +24,7 @@ MatrixExponentals=eye(4);
 % w6L2
 
 for i=1:robot.numJoints
-    MatrixExponentals=MatrixExponentals*transMatExpScrew(ScrewVectors(i),jointAngles(i));
+    MatrixExponentals=MatrixExponentals*transMatExpScrew(ScrewVectors(:,i),jointAngles(i));
 end
 
 
