@@ -7,7 +7,7 @@
 %Returns: BodyK, the orientation of the end effector
 %MexpBlist, stack of all of the matrix exponental forms of the twist of
 %each joint
-function BodyK=FK_body(robot,jointAngles)
+function [BodyK, jointTransformations]=FK_body(robot,jointAngles)
 
 if length(jointAngles) ~=length(robot.B(1,:))
     error("make sure vector of angles has same length as robot has joints")
@@ -24,9 +24,15 @@ MatrixExponentals=eye(4);
 % w6L2
 
 for i=1:robot.numJoints
-    MatrixExponentals=MatrixExponentals*transMatExpScrew(ScrewVectors(:,i),jointAngles(i));
+    EStheta = transMatExpScrew(ScrewVectors(:,i), jointAngles(i));
+    MatrixExponentals = MatrixExponentals * EStheta;
+    jointTransformations(i) = se3(EStheta); %we make out 4x4's se3 objects so plotting becomes much easier
 end
+Tvectors=trvec(jointTransformations); %extracts the translation vectors from the se3 objects, used for plotting
 
+plotTransforms(jointTransformations)
+hold
+plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 
 BodyK=M*MatrixExponentals;
 end

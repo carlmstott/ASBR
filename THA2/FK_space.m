@@ -9,7 +9,10 @@
 % represents transform from frame n-1 to frame n.
 % err: error code
 
+
+
 function [T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
+
 
 if length(jointAngles) ~= robot.numJoints
     error("Error: make sure vector of angles has same length as robot has joints")
@@ -26,10 +29,16 @@ for i = 1 : robot.numJoints
     twist = robot.S(:, i);
     e_S_theta = transMatExpScrew(twist, jointAngles(i));
     MatrixExponentals = MatrixExponentals * e_S_theta;
-    jointToJointTransforms(:, :, i) = e_S_theta; %#ok<AGROW,NASGU>
+    jointToJointTransforms(i) = se3(e_S_theta); %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
 end
+Tvectors=trvec(jointToJointTransforms); %extracts the translation vectors from the se3 objects, used for plotting
 
 % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
 T = MatrixExponentals * robot.M;
 err = 0;
+
+plotTransforms(jointToJointTransforms)
+hold
+plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
+
 end
