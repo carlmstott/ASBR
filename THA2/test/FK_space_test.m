@@ -22,7 +22,9 @@ S = [0 0 0;
  
  robot = defineRobot(M, S, B)
 
-jointAngles = sym('theta', [robot.numJoints 1])
+%jointAngles = sym('theta', [robot.numJoints 1]) UNCOMMENT THIS BEFORE PUSH
+
+jointAngles=[0,0,0];
 
 [T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
 

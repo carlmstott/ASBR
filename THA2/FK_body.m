@@ -30,7 +30,9 @@ for i=1:robot.numJoints
 end
 Tvectors=trvec(jointTransformations); %extracts the translation vectors from the se3 objects, used for plotting
 
-plotTransforms(jointTransformations)
+
+name=["frame1";"frame2";"frame3"];
+plotTransforms(jointTransformations,'FrameAxisLabels',"off", 'FrameLabel',name)
 hold
 plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 

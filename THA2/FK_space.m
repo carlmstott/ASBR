@@ -29,16 +29,21 @@ for i = 1 : robot.numJoints
     twist = robot.S(:, i);
     e_S_theta = transMatExpScrew(twist, jointAngles(i));
     MatrixExponentals = MatrixExponentals * e_S_theta;
-    jointToJointTransforms(i) = se3(e_S_theta); %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
+    jointToJointTransforms(:,:,i) = e_S_theta; %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
 end
-Tvectors=trvec(jointToJointTransforms); %extracts the translation vectors from the se3 objects, used for plotting
+% Tvectors=trvec(jointToJointTransforms); %extracts the translation vectors from the se3 objects, used for plotting
 
 % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
 T = MatrixExponentals * robot.M;
 err = 0;
 
-plotTransforms(jointToJointTransforms)
-hold
-plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
+figure; hold on
+for i=1:robot.numJoints
+trplot(double(jointToJointTransforms(:,:,i)))
+end
+
+% trplot(jointToJointTransforms)
+% hold
+% plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 
 end
