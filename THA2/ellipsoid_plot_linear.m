@@ -1,5 +1,5 @@
 %This function was written by carl stott on 3/15
-%Brief: takes in a jacobian and returns a 4,3 matrix where top row is
+%Brief: takes in a jacobian and returns a 4x3 matrix where top row is
 %magnatide of principal axis of the ellipsoid and the bottom 3 rows are the
 %directions of the axis's of the manuverability elipsoid in columns. ex,
 %column 1 of the output will have a scaler magnitude on top and direction
@@ -23,10 +23,34 @@ A_v=J_v*J_vt; %if everything else is correct this should be a 3x3
 elipsoidDimentions.eigenVectors = V;
 elipsoidDimentions.eigenValues = transpose(diag(D));
 
-% plot
-ellipsoid(0,0,0, sqrt(elipsoidDimentions.eigenValues(1)), ...
-    sqrt(elipsoidDimentions.eigenValues(2)), sqrt(elipsoidDimentions.eigenValues(3)))
-axis equal
+
+
+Evector=[sqrt(elipsoidDimentions.eigenValues(1));
+    sqrt(elipsoidDimentions.eigenValues(2)); 
+    sqrt(elipsoidDimentions.eigenValues(3))];
+
+
+ElipsoidDim = V*Evector;
+
+
+ %plot this
+  ellipsoid(0,0,0, sqrt(elipsoidDimentions.eigenValues(1)), ...
+      sqrt(elipsoidDimentions.eigenValues(2)), sqrt(elipsoidDimentions.eigenValues(3)))
+  axis equal
+  hold
+
+
+% ellipsoid(0,0,0, ElipsoidDim(1), sqrt(ElipsoidDim(2)), ElipsoidDim(3))
+
+% hold on
+% quiver3(0,0,0,sqrt(elipsoidDimentions.eigenValues(1))*elipsoidDimentions.eigenVectors(1,1),sqrt(elipsoidDimentions.eigenValues(1))*elipsoidDimentions.eigenVectors(2,1),sqrt(elipsoidDimentions.eigenValues(1))*elipsoidDimentions.eigenVectors(3,1))
+% quiver3(0,0,0,sqrt(elipsoidDimentions.eigenValues(2))*elipsoidDimentions.eigenVectors(1,2),sqrt(elipsoidDimentions.eigenValues(2))*elipsoidDimentions.eigenVectors(2,2),sqrt(elipsoidDimentions.eigenValues(2))*elipsoidDimentions.eigenVectors(3,2))
+% quiver3(0,0,0,sqrt(elipsoidDimentions.eigenValues(3))*elipsoidDimentions.eigenVectors(1,3),sqrt(elipsoidDimentions.eigenValues(3))*elipsoidDimentions.eigenVectors(2,3),sqrt(elipsoidDimentions.eigenValues(3))*elipsoidDimentions.eigenVectors(3,3))
+% 
+% quiver3(0,0,0,sqrt(elipsoidDimentions.eigenValues(1))*-elipsoidDimentions.eigenVectors(1,1),sqrt(elipsoidDimentions.eigenValues(1))*-elipsoidDimentions.eigenVectors(2,1),sqrt(elipsoidDimentions.eigenValues(1))*-elipsoidDimentions.eigenVectors(3,1))
+% quiver3(0,0,0,sqrt(elipsoidDimentions.eigenValues(2))*-elipsoidDimentions.eigenVectors(1,2),sqrt(elipsoidDimentions.eigenValues(2))*-elipsoidDimentions.eigenVectors(2,2),sqrt(elipsoidDimentions.eigenValues(2))*-elipsoidDimentions.eigenVectors(3,2))
+% quiver3(0,0,0,sqrt(elipsoidDimentions.eigenValues(3))*-elipsoidDimentions.eigenVectors(1,3),sqrt(elipsoidDimentions.eigenValues(3))*-elipsoidDimentions.eigenVectors(2,3),sqrt(elipsoidDimentions.eigenValues(3))*-elipsoidDimentions.eigenVectors(3,3))
+
 
 end
 

@@ -14,7 +14,7 @@ B = robot.B;
 T  = eye(4);
 
 for i = (robot.numJoints -1) : -1 : 1
-   i
+   
     % Ref: Chapter 5, Modern Robotics
     T  = T * transMatExpScrew(-1 * B(:, i + 1), jointAngles(i + 1));
     Jb(:, i) = Adj(T) * B(:, i);

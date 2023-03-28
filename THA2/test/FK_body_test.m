@@ -10,7 +10,7 @@ M = [[-1, 0, 0, 0]; [0, 1, 0, 6]; [0, 0, -1, 2]; [0, 0, 0, 1]];
 
 Blist = [[0; 0; -1; 2; 0; 0], [0; 0; 0; 0; 1; 0], [0; 0; 1; 0; 0; 0.1]];
 
-screwangles = [pi / 2; 3; pi];
+screwangles = [pi/2; 0; pi/2];
 
 S=Blist; %the S entry in define robot is used to track the fwd kinumatics,which we are not using
 

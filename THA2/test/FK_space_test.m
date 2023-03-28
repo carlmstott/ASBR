@@ -3,6 +3,7 @@
 
 clear all; clc;
 
+
 L = sym('L', [3 1]);
 
 M = [1 0 0 L(1) + L(2) + L(3);
@@ -17,14 +18,19 @@ S = [0 0 0;
      0 0 0;
      0 -L(1) -L(1)-L(2);
      0 0 0;];
+
+
+%Test is conducted using the values 
+
+
  
  B = S; % as we are calculating FK in space frame, Body frame twist vectors are of no use. 
  
  robot = defineRobot(M, S, B)
 
-%jointAngles = sym('theta', [robot.numJoints 1]) UNCOMMENT THIS BEFORE PUSH
+jointAngles = sym('theta', [robot.numJoints 1]) %UNCOMMENT THIS BEFORE PUSH
 
-jointAngles=[0,0,0];
+jointAngles=[1,2,4];
 
 [T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
 

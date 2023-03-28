@@ -37,5 +37,6 @@ hold
 plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 
 BodyK=M*MatrixExponentals;
+
 end
 
