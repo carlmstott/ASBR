@@ -12,19 +12,28 @@
 function elipsoidDimentions=ellipsoid_plot_angular(jacobian)
 
 J_a=jacobian(1:3,:); %refrence: W8L21S7
+
 J_at=transpose(J_a);
 
-A_a=J_a*J_at; %if everything else is correct this should be a 3x3
 
-[V,D]=eig(A_a); %"produces a diagonal matrix D of eigenvalues and 
+A_v=J_a*J_at; %if everything else is correct this should be a 3x3
+
+[V,D]=eig(A_v); %"produces a diagonal matrix D of eigenvalues and 
         %a full matrix V whose columns are the corresponding eigenvectors  
         %so that A*V = V*D." -matlab tooltip
-
 
 elipsoidDimentions.eigenVectors = V;
 elipsoidDimentions.eigenValues = transpose(diag(D));
 
-% plot
-ellipsoid(0,0,0, sqrt(elipsoidDimentions.eigenValues(1)), ...
-    sqrt(elipsoidDimentions.eigenValues(2)), sqrt(elipsoidDimentions.eigenValues(3)))
-axis equal
+
+
+Evector=[sqrt(elipsoidDimentions.eigenValues(1));
+    sqrt(elipsoidDimentions.eigenValues(2)); 
+    sqrt(elipsoidDimentions.eigenValues(3))];
+
+
+ElipsoidDim = V*Evector;
+
+ElipsoidDim=abs(ElipsoidDim);
+
+ellipsoid(0,0,0, ElipsoidDim(1), ElipsoidDim(2), ElipsoidDim(3))

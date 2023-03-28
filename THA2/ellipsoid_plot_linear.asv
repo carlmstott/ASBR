@@ -32,9 +32,15 @@ Evector=[sqrt(elipsoidDimentions.eigenValues(1));
 
 ElipsoidDim = V*Evector;
 
-ElipsoidDim=abs(ElipsoidDim);
 
-ellipsoid(0,0,0, ElipsoidDim(1), ElipsoidDim(2), ElipsoidDim(3))
+ %plot this
+ subplot(1,2,1)
+   ellipsoid(0,0,0, sqrt(elipsoidDimentions.eigenValues(1)), ...
+       sqrt(elipsoidDimentions.eigenValues(2)), sqrt(elipsoidDimentions.eigenValues(3)))
+   axis equal
+
+subplot(1,2,2)
+ellipsoid(0,0,0, abs(ElipsoidDim(1)), abs(ElipsoidDim(2)), abs(ElipsoidDim(3)))
 
 
 
