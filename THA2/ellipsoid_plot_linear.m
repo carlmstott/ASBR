@@ -9,7 +9,7 @@
 %
 %Returns: 3,2 matrix where each row is the respective direction and 
 % magnitude of the principal axis of the liniar manipuability elipsoid.
-function elipsoidDimentions=ellipsoid_plot_linear(jacobian)
+function Evector=ellipsoid_plot_linear(jacobian)
 
 J_v=jacobian(4:6,:); %refrence: W8L21S7
 J_vt=transpose(J_v);

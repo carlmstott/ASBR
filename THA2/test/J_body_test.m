@@ -11,36 +11,36 @@ syms L1 L2
 M=eye(4); %we dont need this, so I'm leaving it empty
 
 
-S = [0 0    0       0;
-     0 0    0       0;
-     1 1    1       0;
-     0 0    0       0;
-     0 -L1 -L1-L2   0;
-     0 0    0       1;];
- 
- B = S; % I am only using symbolic funconality to see if symbolic functonality works,
- %it does not have to be correct.
- 
-robot = defineRobot(M, S, B);
-
-jointAngles = sym('theta', [robot.numJoints 1]);
-
-J = J_space(robot,jointAngles)
+% S = [0 0    0       0;
+%      0 0    0       0;
+%      1 1    1       0;
+%      0 0    0       0;
+%      0 -L1 -L1-L2   0;
+%      0 0    0       1;];
+%  
+%  B = S; % I am only using symbolic funconality to see if symbolic functonality works,
+%  %it does not have to be correct.
+%  
+% robot = defineRobot(M, S, B);
+% 
+% jointAngles = sym('theta', [robot.numJoints 1]);
+% 
+% J = J_space(robot,jointAngles)
 
 
 % The below is the neumeric test I used, gotten from the 
 %https://github.com/NxRLab/ModernRobotics/blob/master/packages/MATLAB/mr/JacobianBody.m
-% Blist = [[0; 0; 1;   0; 0.2; 0.2], ...
-%         [1; 0; 0;   2;   0;   3], ...
-%         [0; 1; 0;   0;   2;   1], ...
-%         [1; 0; 0; 0.2; 0.3; 0.4]];
-% 
-% S=Blist; %doesent matter what this 
-% 
-% jointAngles = [0.2; 1.1; 0.1; 1.2];
-% 
-% 
-% robot=defineRobot(M, S, Blist);
+Blist = [[0; 0; 1;   0; 0.2; 0.2], ...
+        [1; 0; 0;   2;   0;   3], ...
+        [0; 1; 0;   0;   2;   1], ...
+        [1; 0; 0; 0.2; 0.3; 0.4]];
+
+S=Blist; %doesent matter what this 
+
+jointAngles = [0.2; 1.1; 0.1; 1.2];
+
+
+robot=defineRobot(M, S, Blist);
 
 J=J_body(robot,jointAngles);
 
