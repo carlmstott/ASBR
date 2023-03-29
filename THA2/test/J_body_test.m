@@ -1,11 +1,17 @@
 clear all;
 close all;
 
+
 %this script is used to test the FK_body function using the example
 %provided on the modern robotics github page:
 %https://github.com/NxRLab/ModernRobotics/blob/master/packages/MATLAB/mr/JacobianBody.m
 
 M=eye(4); %we dont need this, so I'm leaving it empty
+
+
+
+
+
 
 Blist = [[0; 0; 1;   0; 0.2; 0.2], ...
         [1; 0; 0;   2;   0;   3], ...

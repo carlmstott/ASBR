@@ -26,13 +26,13 @@ S = [0 0 0;
  
  B = S; % as we are calculating FK in space frame, Body frame twist vectors are of no use. 
  
- robot = defineRobot(M, S, B)
+robot = defineRobot(M, S, B)
 
-jointAngles = sym('theta', [robot.numJoints 1]) %UNCOMMENT THIS BEFORE PUSH
+jointAngles = sym('theta', [robot.numJoints 1])
 
 jointAngles=[1,2,4];
 
-[T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
+[T, jointToJointTransforms, err] = FK_space(robot,jointAngles, 1); %change to one if symbolic
 
 T = simplify(T)
 

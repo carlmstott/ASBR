@@ -8,9 +8,10 @@
 % jointToJointTransforms: 4x4xn dimensional matrix where each 4x4 matrix
 % represents transform from frame n-1 to frame n.
 % err: error code
+%if you are feeding symbolics in here, change the symbolic varable to be 1
 
 
-function [T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
+function [T, jointToJointTransforms, err] = FK_space(robot,jointAngles, symbolic)
 
 
 if length(jointAngles) ~= robot.numJoints
@@ -28,10 +29,15 @@ for i = 1 : robot.numJoints
     twist = robot.S(:, i);
     e_S_theta = transMatExpScrew(twist, jointAngles(i));
     MatrixExponentals = MatrixExponentals * e_S_theta;
+    jointToJointTransforms(:,:,i) = e_S_theta;
 
 
-     %unused unless we want to plot spesific joint locations
-     jointToJointTransforms(i) = se3(double(e_S_theta)); %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
+     if symbolic == 0
+     jointToJointTransformsSE3(i) = se3(double(e_S_theta)); %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
+     end
+
+     
+
 end
 
 % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
@@ -40,11 +46,12 @@ err = 0;
 
 
 
-% UNCOMMENT WHEN WE WANT TO PLOT
-% Tvectors=trvec(jointToJointTransforms); %extracts the translation vectors from the se3 objects, used for plotting
-% name=["frame1";"frame2";"frame3"];
-% plotTransforms(jointTransformations,'FrameAxisLabels',"off", 'FrameLabel',name)
-% hold
-% plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
+if symbolic == 0
+Tvectors=trvec(jointToJointTransforms); %extracts the translation vectors from the se3 objects, used for plotting
+name=["frame1";"frame2";"frame3"];
+plotTransforms(jointTransformations,'FrameAxisLabels',"off", 'FrameLabel',name)
+hold
+plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
+end
 
 end
