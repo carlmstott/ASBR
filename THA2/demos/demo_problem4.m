@@ -41,7 +41,7 @@ B(:, 6) = [0; 1; 0; 0; 0; 0];
 
 jointAngles = sym('theta', [robot.numJoints 1]);
 
-[T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
+[T, jointToJointTransforms, err] = FK_space(robot,jointAngles,1)
 
 Js = J_space(robot,jointAngles)
 
