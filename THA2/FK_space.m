@@ -29,27 +29,26 @@ for i = 1 : robot.numJoints
     twist = robot.S(:, i);
     e_S_theta = transMatExpScrew(twist, jointAngles(i));
     MatrixExponentals = MatrixExponentals * e_S_theta;
+
+    if symbolic ==1
     jointToJointTransforms(:,:,i) = e_S_theta;
 
-
-     if symbolic == 0
+    else
      jointToJointTransformsSE3(i) = se3(double(e_S_theta)); %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
+     spaceToJointTransformsSE3(i)=se3(double(MatrixExponentals)*robot.M(:,:,i)); % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
      end
 
      
 
 end
-
-% product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
-T = MatrixExponentals * robot.M;
 err = 0;
 
 
 
 if symbolic == 0
-Tvectors=trvec(jointToJointTransformsSE3); %extracts the translation vectors from the se3 objects, used for plotting
-name=["frame1";"frame2";"frame3"];
-plotTransforms(jointToJointTransformsSE3,'FrameAxisLabels',"off", 'FrameLabel',name)
+Tvectors=trvec(spaceToJointTransformsSE3); %extracts the translation vectors from the se3 objects, used for plotting
+name=["frame1";"frame2";"frame3";"frame4";"frame5";"frame6"];
+plotTransforms(spaceToJointTransformsSE3,'FrameAxisLabels',"off",'FrameLabel',name)
 hold
 plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 end
