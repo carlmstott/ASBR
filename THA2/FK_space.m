@@ -47,9 +47,9 @@ err = 0;
 
 
 if symbolic == 0
-Tvectors=trvec(jointToJointTransforms); %extracts the translation vectors from the se3 objects, used for plotting
+Tvectors=trvec(jointToJointTransformsSE3); %extracts the translation vectors from the se3 objects, used for plotting
 name=["frame1";"frame2";"frame3"];
-plotTransforms(jointTransformations,'FrameAxisLabels',"off", 'FrameLabel',name)
+plotTransforms(jointToJointTransformsSE3,'FrameAxisLabels',"off", 'FrameLabel',name)
 hold
 plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 end
