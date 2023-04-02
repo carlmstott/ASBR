@@ -3,7 +3,6 @@
 
 clear all; clc;
 
-
 L = sym('L', [3 1]);
 
 M = [1 0 0 L(1) + L(2) + L(3);
@@ -18,21 +17,14 @@ S = [0 0 0;
      0 0 0;
      0 -L(1) -L(1)-L(2);
      0 0 0;];
-
-
-%Test is conducted using the values 
-
-
  
- B = S; % as we are calculating FK in space frame, Body frame twist vectors are of no use. 
+B = S; % as we are calculating FK in space frame, Body frame twist vectors are of no use. 
  
 robot = defineRobot(M, S, B)
 
 jointAngles = sym('theta', [robot.numJoints 1])
 
-jointAngles=[1,2,4];
-
-[T, jointToJointTransforms, err] = FK_space(robot,jointAngles, 1); %change to one if symbolic
+[T, jointToJointTransforms, spaceToJointTransforms, err] = FK_space(robot,jointAngles, false)
 
 T = simplify(T)
 
@@ -43,4 +35,3 @@ T = simplify(T)
 % [ sin(theta1 + theta2 + theta3),  cos(theta1 + theta2 + theta3), 0, L2*sin(theta1 + theta2) + L1*sin(theta1) + L3*sin(theta1 + theta2 + theta3)]
 % [                             0,                              0, 1,                                                                           0]
 % [                             0,                              0, 0,                                                                           1]
- 
