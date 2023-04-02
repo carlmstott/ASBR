@@ -3,6 +3,7 @@
 % robot: robot object consistig of the robot's kinematic properties
 % defined in defineRobot.m
 % jointAngles: list of joint angles 0 to n
+% plot: boolean value to plot (or not) the robot's frames
 % returns:
 % T: forward kinematics transformation matrix in space frame 4x4
 % jointToJointTransforms: 4x4xn dimensional matrix where each 4x4 matrix

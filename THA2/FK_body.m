@@ -1,18 +1,24 @@
-%This function was written by carl stott on 3/15
-%Brief: takes robot object and vector of joint angles jointAngles and
-%returns the fwd kinumatics in the end effector frame
-%Params: robot, robot object.
-%JointAngles, list of joint angles
+% brief: takes robot object and vector of joint angles jointAngles and
+% returns the fwd kinumatics in the end effector frame
+% params:
+% robot, robot object.
+% jointAngles: list of joint angles 0 to n
+% plot: boolean value to plot (or not) the robot's frames
 %
-%Returns: BodyK, the orientation of the end effector
-%MexpBlist, stack of all of the matrix exponental forms of the twist of
-%each joint
-%if you are feeding symbolics in here, change the symbolic varable to be 1
+%Returns:
+% BodyK, the orientation of the end effector
+% jointToJointTransforms: 4x4xn dimensional matrix where each 4x4 matrix
+% represents transform from frame n to frame n-1
+% eeToJointTransforms: 4x4xn dimensional matrix where each 4x4 matrix
+% represents transform from the end-effector reference frame to frame n
+% err: error code
 
-function [BodyK, jointTransformations]=FK_body(robot,jointAngles,symbolic)
+function [BodyK, jointToJointTransforms, eeToJointTransforms, err] = FK_body(robot,jointAngles, plot)
 
-if length(jointAngles) ~=length(robot.B(1,:))
-    error("make sure vector of angles has same length as robot has joints")
+if length(jointAngles) ~= robot.numJoints
+    warning("Error: make sure vector of angles has same length as robot has joints")
+    err = -1;
+    return
 end
 
 M=robot.M;
@@ -25,30 +31,43 @@ MatrixExponentals=eye(4);
 %then multiplys them all together starting with joint 1, reference: slide14
 %w6L2
 
-for i=1:robot.numJoints
+for i = 1 : robot.numJoints
     EStheta = transMatExpScrew(ScrewVectors(:,i), jointAngles(i));
     MatrixExponentals = MatrixExponentals * EStheta;
-
-
-    jointTransformations(:,:,i) = EStheta; %we make out 4x4's se3 objects so plotting becomes much easier
-
-     if symbolic == 0
-     jointToJointTransformsSE3(i) = se3(double(e_S_theta)); %#ok<AGROW,NASGU> the se3 function turns our 4x4 matrix into an se3 object, which we use to plot
-     end
-
+    jointToJointTransforms(:, :, i) = EStheta; %#ok<*AGROW>
+    eeToJointTransforms(:,:,i) = M * MatrixExponentals;
 end
 
+BodyK = M * MatrixExponentals;
 
+% convert all outputs to double if using numeric values
 
-if symbolic == 0
-name=["frame1";"frame2";"frame3"];
-Tvectors=trvec(jointTransformations); %extracts the translation vectors from the se3 objects, used for plotting
-plotTransforms(jointTransformations,'FrameAxisLabels',"off", 'FrameLabel',name)
-hold
-plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
+if(isnumeric(BodyK))
+    BodyK = double(BodyK);
+    jointToJointTransforms = double(jointToJointTransforms);
+    eeToJointTransforms = double(eeToJointTransforms);
 end
 
-BodyK=M*MatrixExponentals;
+% if plotting is enabled
+if(plot)
+    figure; hold on; grid on;
+    if(isnumeric(eeToJointTransforms))
+        name = "";
+        for i = 1 : robot.numJoints
+            jointToJointTransforms_SE3(i) = se3(jointToJointTransforms(:, :, i));
+            eeToJointTransforms_SE3(i) = se3(eeToJointTransforms(:, :, i));
+            name(i)=strcat('joint_', num2str(i));
+        end
+        plotTransforms(eeToJointTransforms_SE3,'FrameAxisLabels',"off",'FrameLabel',name)
+        Tvectors=trvec(eeToJointTransforms_SE3);
+        plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 
+    else
+        warning("Error: cannot plot symbolic values. Input numeric values to forward kinematics")
+        err = -2;
+        return
+    end
 end
 
+err = 0;
+end
