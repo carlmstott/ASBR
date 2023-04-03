@@ -30,7 +30,7 @@ B(:, 5) = [0; 0.707; 0.707; 0.707; 0.707; -0.707];
 
 jointAngles = sym('theta', [robot.numJoints 1]);
 
-[T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
+[T, err] = FK_space(robot,jointAngles)
 
 Js = J_space(robot,jointAngles);
 Jb = J_body(robot,jointAngles);
