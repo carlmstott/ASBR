@@ -41,8 +41,18 @@ B(:, 6) = [0; 1; 0; 0; 0; 0];
 
 jointAngles = sym('theta', [robot.numJoints 1]);
 
-[T, err] = FK_space(robot,jointAngles,1)
+[T, err] = FK_space(robot,jointAngles,false)
 
-Js = J_space(robot,jointAngles)
+Js = simplify(J_space(robot,jointAngles))
 
-Jb = J_body(robot, jointAngles)
+% for singularity analysis, we use dummy Link length of L = 1
+Js = subs(Js, L, 1);
+
+
+% find singularity configurations
+% Run this multiple times to get different configurations
+thetaList = vpasolve(det(Js), jointAngles, randi([-314, 314], robot.numJoints, 1)/100)
+Js_numeric = subs(Js, jointAngles, transpose(struct2array(thetaList)));
+
+ellipsoid_plot_angular(Js_numeric)          
+ellipsoid_plot_linear(Js_numeric)
