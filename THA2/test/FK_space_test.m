@@ -24,7 +24,7 @@ robot = defineRobot(M, S, B)
 
 jointAngles = sym('theta', [robot.numJoints 1])
 
-[T, jointToJointTransforms, spaceToJointTransforms, err] = FK_space(robot,jointAngles, false)
+[T, err] = FK_space(robot,jointAngles, false)
 
 T = simplify(T)
 
