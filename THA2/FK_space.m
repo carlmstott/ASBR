@@ -12,7 +12,7 @@
 % represents transform from the spatial reference frame to frame n
 % err: error code
 
-function [T, jointToJointTransforms, spaceToJointTransforms, err] = FK_space(robot,jointAngles, plot)
+function [T, err] = FK_space(robot,jointAngles, plot)
 
 if length(jointAngles) ~= robot.numJoints
     warning("Error: make sure vector of angles has same length as robot has joints")
@@ -36,11 +36,9 @@ end
 % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
 T = MatrixExponentals * robot.M;
 
-% convert all outputs to double if using numeric values
+% convert output to double if using numeric values
 if(isnumeric(T))
     T = double(T);
-    jointToJointTransforms = double(jointToJointTransforms);
-    spaceToJointTransforms = double(spaceToJointTransforms);
 end
 
 % if plotting is enabled
