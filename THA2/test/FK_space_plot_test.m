@@ -25,4 +25,4 @@ S = [0 0 0;
 
 jointAngles = randi([-314, 314], robot.numJoints, 1, 'double') / 100;
 
-[T, jointToJointTransforms, spaceToJointTransforms, err] = FK_space(robot,jointAngles, true)
+[T, err] = FK_space(robot,jointAngles, true)
