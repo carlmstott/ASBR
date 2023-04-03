@@ -11,14 +11,14 @@ M = [[-1, 0, 0, 0]; [0, 1, 0, 6]; [0, 0, -1, 2]; [0, 0, 0, 1]];
 
 Blist = [[0; 0; -1; 2; 0; 0], [0; 0; 0; 0; 1; 0], [0; 0; 1; 0; 0; 0.1]];
 
-jointAngles = [pi / 2; 3; 5];
+jointAngles = [pi / 2; 3; pi];
 
 S=Blist; %the S entry in define robot is used to track the fwd kinumatics,which we are not using
 
 robot=defineRobot(M, S, Blist);
 
 
-[BodyK, jointToJointTransforms, eeToJointTransforms, err] = FK_body(robot,jointAngles, true)
+[BodyK, err] = FK_body(robot,jointAngles, true)
 
 
 %expected output is below, which is the same as the outcome provided in the
