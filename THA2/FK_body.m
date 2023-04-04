@@ -39,7 +39,7 @@ end
 
 BodyK = M(:,:,end) * MatrixExponentals; %this accounts for a robot object
 %that has an M for each joint, or a single M for the end effector.
-jointToJointTransforms(:, :, end)= BodyK
+jointToJointTransforms(:, :, end)= BodyK;
 
 % convert all outputs to double if using numeric values
 

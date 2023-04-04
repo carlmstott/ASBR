@@ -9,17 +9,15 @@ function EndConfig=J_inverse_kinumatics(robot, CurrentConfig, xd)
 i=1; %counter, used to make sure I only iterate a maximum of 2 times
 
 [FKBody,~]=FK_body(robot,CurrentConfig,0);
-
-while  i < 20 % || norm(error)>1 will comment back in
-
-%we need to calculate Vb in order to update our current configuration.
-%I am using W8L1S14.
-
-
 Tbd=((double(FKBody))^-1)*xd; %Tbd=Tbs*Tsd
 
 Vb=MatLog(Tbd); %W8L2S14, need twist vector of tbd for math in below line
 %to work out
+
+while  i < 400 || norm(Vb)>1 %will comment back in
+
+%we need to calculate Vb in order to update our current configuration.
+%I am using W8L1S14.
 
 J=J_body(robot, CurrentConfig);
 Jt=transpose(J);
@@ -36,13 +34,24 @@ if robot.numJoints == 6 %
 end
 Jdagger=double(Jdagger);
 
+Jdagger=double(pinv(J));
+
 
 
 CurrentConfig=CurrentConfig+Jdagger*Vb; %updating the current config
 
 [FKBody,~]=FK_body(robot,CurrentConfig,0); %recalculating 
 
-i=i+1;
+
+%we need to calculate Vb in order to update our current configuration.
+%I am using W8L1S14.
+Tbd=((double(FKBody))^-1)*xd; %Tbd=Tbs*Tsd
+Vb=MatLog(Tbd); %W8L2S14, need twist vector of tbd for math in below line
+%to work out
+
+
+i=i+1
+normStore(i)=norm(Vb)
 end
 
 EndConfig=CurrentConfig;
