@@ -53,11 +53,11 @@ Jb = subs(Jb, L, 1);
 
 % find singularity configurations
 % Run this multiple times to get different configurations
-thetaList = vpasolve(det(Jb) == 0, jointAngles, randi([-314, 314], robot.numJoints, 1)/100);
+thetaList = singularity(Jb, jointAngles);
 
-Jb_numeric = subs(Jb, jointAngles, 0*transpose(struct2array(thetaList)));
+Jb_numeric = subs(Jb, jointAngles, thetaList);
 
 ellipsoid_plot_angular(Jb_numeric)          
 ellipsoid_plot_linear(Jb_numeric)
 
-simplify(rad2deg(struct2array(thetaList)))
+simplify(rad2deg(thetaList))
