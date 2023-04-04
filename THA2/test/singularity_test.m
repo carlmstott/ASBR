@@ -1,4 +1,8 @@
-%% This is a demo for the robot in Exercise 5.13 (Fig 5.23) on pg 209 of Modern Robotics by Lynch et al
+%% This script is used to test the singularity.m file 
+% This uses the robot in Exercise 5.13 (Fig 5.23) on pg 209 of Modern Robotics by Lynch et al
+% At the end, it plots manipulability ellipsoids for the generated singular
+% configuration. In the test, the ellipsoids can be used to confirm that
+% the calculated configuration is indeed singular.
 
 
 clear; clc; close all;
@@ -59,5 +63,3 @@ Jb_numeric = subs(Jb, jointAngles, thetaList);
 
 ellipsoid_plot_angular(Jb_numeric)          
 ellipsoid_plot_linear(Jb_numeric)
-
-rad2deg(thetaList)
