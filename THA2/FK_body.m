@@ -13,7 +13,7 @@
 % represents transform from the end-effector reference frame to frame n
 % err: error code
 
-function [BodyK, jointToJointTransforms, eeToJointTransforms, err] = FK_body(robot,jointAngles, plot)
+function [BodyK, err] = FK_body(robot,jointAngles, plot)
 
 if length(jointAngles) ~= robot.numJoints
     warning("Error: make sure vector of angles has same length as robot has joints")
@@ -35,31 +35,26 @@ for i = 1 : robot.numJoints
     EStheta = transMatExpScrew(ScrewVectors(:,i), jointAngles(i));
     MatrixExponentals = MatrixExponentals * EStheta;
     jointToJointTransforms(:, :, i) = EStheta; %#ok<*AGROW>
-    eeToJointTransforms(:,:,i) = M * MatrixExponentals;
 end
 
-BodyK = M * MatrixExponentals;
+BodyK = M(:,:,end) * MatrixExponentals; %this accounts for a robot object
+%that has an M for each joint, or a single M for the end effector.
+jointToJointTransforms(:, :, end)= BodyK
 
 % convert all outputs to double if using numeric values
 
-if(isnumeric(BodyK))
-    BodyK = double(BodyK);
-    jointToJointTransforms = double(jointToJointTransforms);
-    eeToJointTransforms = double(eeToJointTransforms);
-end
+
 
 % if plotting is enabled
 if(plot)
     figure; hold on; grid on;
-    if(isnumeric(eeToJointTransforms))
-        name = "";
+    if(isnumeric(jointToJointTransforms))
         for i = 1 : robot.numJoints
             jointToJointTransforms_SE3(i) = se3(jointToJointTransforms(:, :, i));
-            eeToJointTransforms_SE3(i) = se3(eeToJointTransforms(:, :, i));
-            name(i)=strcat('joint_', num2str(i));
+            name(i)=strcat("joint_", num2str(i));
         end
-        plotTransforms(eeToJointTransforms_SE3,'FrameAxisLabels',"off",'FrameLabel',name)
-        Tvectors=trvec(eeToJointTransforms_SE3);
+        plotTransforms(jointToJointTransforms_SE3,'FrameAxisLabels',"off",'FrameLabel',name)
+        Tvectors=trvec(jointToJointTransforms_SE3);
         plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 
     else

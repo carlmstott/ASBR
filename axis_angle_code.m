@@ -12,10 +12,10 @@ function [theta,w]=axis_angle_code(R)
     % that Rtranspose(R)=I. the use of the any() function reduces a matrix
     % or vector of logical values into a single logical, which is what the
     % or operator needs.
-if (det(R)~=1 || any(any(R*transpose(R)~=eye(3))) || any(size(R)~=([3,3])))
-    error('make sure R is part of SO(3)')
+% if (det(R)~=1 || any(any(R*transpose(R)~=eye(3))) || any(size(R)~=([3,3])))
+%     error('make sure R is part of SO(3)')
 
-elseif (isequal(R,eye(3)))
+if (isequal(R,eye(3)))
     %2. if R is an ID matrix, return theta=0 and w as undifined
     theta=0;
     w="undefinied";
