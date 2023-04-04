@@ -24,7 +24,7 @@ A_v=J_a*J_at; %if everything else is correct this should be a 3x3
         %so that A*V = V*D." -matlab tooltip
 
 elipsoidDimentions.eigenVectors = V;
-elipsoidDimentions.eigenValues = transpose(diag(D));
+elipsoidDimentions.eigenValues = round(transpose(diag(D)), 4); % round to 4 places after the decimal
 
 
 
@@ -37,4 +37,10 @@ ElipsoidDim = V*Evector;
 
 ElipsoidDim=abs(ElipsoidDim);
 
-ellipsoid(0,0,0, ElipsoidDim(1), ElipsoidDim(2), ElipsoidDim(3))
+figure;
+ellipsoid(0,0,0, double(ElipsoidDim(1)), double(ElipsoidDim(2)), double(ElipsoidDim(3)))
+axis equal
+title("Manipulability ellipsoid - orientation")
+xlabel('x')
+ylabel('y')
+zlabel('z')

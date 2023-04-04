@@ -1,7 +1,7 @@
 %% This is a demo for the robot in Exercise 5.13 (Fig 5.23) on pg 209 of Modern Robotics by Lynch et al
 
 
-clear; clc;
+clear; clc; close all;
 
 syms L;
 
@@ -45,14 +45,19 @@ jointAngles = sym('theta', [robot.numJoints 1]);
 
 Js = simplify(J_space(robot,jointAngles))
 
+Jb = simplify(J_body(robot,jointAngles))
+
 % for singularity analysis, we use dummy Link length of L = 1
-Js = subs(Js, L, 1);
+Jb = subs(Jb, L, 1);
 
 
 % find singularity configurations
 % Run this multiple times to get different configurations
-thetaList = vpasolve(det(Js), jointAngles, randi([-314, 314], robot.numJoints, 1)/100)
-Js_numeric = subs(Js, jointAngles, transpose(struct2array(thetaList)));
+thetaList = vpasolve(det(Jb) == 0, jointAngles, randi([-314, 314], robot.numJoints, 1)/100);
 
-ellipsoid_plot_angular(Js_numeric)          
-ellipsoid_plot_linear(Js_numeric)
+Jb_numeric = subs(Jb, jointAngles, 0*transpose(struct2array(thetaList)));
+
+ellipsoid_plot_angular(Jb_numeric)          
+ellipsoid_plot_linear(Jb_numeric)
+
+simplify(rad2deg(struct2array(thetaList)))
