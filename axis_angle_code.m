@@ -29,5 +29,5 @@ elseif (trace(R)==-1)
 
 else %if this line is reached, R is in so(3), and trace(R)/=-1.
     theta=acos(.5*(trace(R)-1));
-    w=(1/(2*sin(theta)))*(R-transpose(R));
+    w=1/(2*sin(theta)) * (R-transpose(R));
 end

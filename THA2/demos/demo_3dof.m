@@ -17,12 +17,17 @@ S = [0 0 0;
      0 -L(1) -L(1)-L(2);
      0 0 0;];
  
- B = S;
+ B = [0,0,0;
+     0,0,0;
+     1,1,1;
+     0,0,0;
+     L(1)+L(2)+L(3),L(2)+L(3),L(3);
+     0,0,0];
  
  robot = defineRobot(M, S, B)
 
 jointAngles = sym('theta', [robot.numJoints 1])
 
-[T, jointToJointTransforms, err] = FK_space(robot,jointAngles)
+[T, err] = FK_space(robot,jointAngles, 0)
 
 Js = J_space(robot,jointAngles)
