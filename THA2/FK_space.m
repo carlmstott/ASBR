@@ -42,11 +42,11 @@ jointToJointTransforms(:, :, end)= SpaceK;
 % if plotting is enabled
 if(plot)
     jointToJointTransforms=double(jointToJointTransforms);
-    figure; hold on; grid on;
     if(isnumeric(jointToJointTransforms))
         basejoint_SE3=se3(jointToJointTransforms(:, :, 1));
         endeffector_SE3 = se3(jointToJointTransforms(:, :, end));
             plotTransforms(basejoint_SE3,'FrameAxisLabels',"off",'FrameLabel','frame1')
+            hold on; grid on;
             plotTransforms(endeffector_SE3,'FrameAxisLabels',"off",'FrameLabel','end_effector')
     else
         warning("Error: cannot plot symbolic values. Input numeric values to forward kinematics")
