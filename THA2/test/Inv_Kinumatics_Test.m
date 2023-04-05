@@ -30,9 +30,9 @@ S = [0 0 0;
 jointAngles = [pi/4;pi/2;0]; %joint angles used to generate a reachable T which
                             %will be the goal of our FK function
 
-[T, err] = FK_space(robot,jointAngles, 1); %this gives us the T we want to 
+[T, err] = FK_space(robot,jointAngles, 0); %this gives us the T we want to 
                                            %reach with our FK function
 
 EndConfig=J_inverse_kinumatics(robot, [pi-.1;pi/2;0], T);
 
-[TafterIK, err] = FK_space(robot,EndConfig, 1);
+[TafterIK, err] = FK_space(robot,EndConfig, 0);

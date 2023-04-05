@@ -69,16 +69,13 @@ B(:,6)=[0; 1; 0; 0; 0; 0];
 
 [robot, err] = defineRobot(M, S, B);
 
-jointAngles = [
-
-    0.0185
-   -0.0995
-   -0.0293
-   -1.4309
-    0.1100
-    1.2140
+jointAngles = [ 2.0910
+  282.1611
+ -569.4429
+   55.4915
+  309.3608
+  -78.3885
 ];
 
-jointAngles=jointAngles*1000;
 
 [T, jointToJointTransforms, err] = Fk_Space_for_Kuka(robot,jointAngles, 0)
