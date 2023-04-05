@@ -23,18 +23,8 @@ J=J_body(robot, CurrentConfig);
 Jt=transpose(J);
 
 
-if robot.numJoints > 6 %meaning we have a fat robot (W8L1S11)
-    Jdagger=Jt*((J*Jt)^-1);
-end
-if robot.numJoints < 6 %meaning we have a tall robot (W8L1S11)
-    Jdagger=((Jt*J)^-1)*Jt;
-end
-if robot.numJoints == 6 %
-    Jdagger=J;
-end
-Jdagger=double(Jdagger);
-
-Jdagger=double(pinv(J));
+Jdagger=double(pinv(J)); %matlab pinv function makes the psudoinverse no
+%matter what the shape 
 
 
 
