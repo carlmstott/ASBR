@@ -12,7 +12,7 @@
 % represents transform from the spatial reference frame to frame n
 % err: error code
 
-function [T, err] = FK_space(robot,jointAngles, plot)
+function [SpaceK, err] = FK_space(robot,jointAngles, plot)
 
 if length(jointAngles) ~= robot.numJoints
     warning("Error: make sure vector of angles has same length as robot has joints")
@@ -30,31 +30,24 @@ for i = 1 : robot.numJoints
     e_S_theta = transMatExpScrew(twist, jointAngles(i));
     MatrixExponentals = MatrixExponentals * e_S_theta;
     jointToJointTransforms(:, :, i) = e_S_theta;
-    spaceToJointTransforms(:, :, i) = MatrixExponentals * robot.M;
 end
 
 % product of exponentials (e_S1_theta1 * e_S2_theta2 ... * e_Sn_thetan) * M . Ref: W6-L2 slide 5
-T = MatrixExponentals * robot.M;
+SpaceK = MatrixExponentals * robot.M(:,:,end);
+jointToJointTransforms(:, :, end)= SpaceK;
 
 % convert output to double if using numeric values
-if(isnumeric(T))
-    T = double(T);
-end
+
 
 % if plotting is enabled
 if(plot)
+    jointToJointTransforms=double(jointToJointTransforms);
     figure; hold on; grid on;
-    if(isnumeric(spaceToJointTransforms))
-        name = "";
-        for i = 1 : robot.numJoints
-            jointToJointTransforms_SE3(i) = se3(jointToJointTransforms(:, :, i));
-            spaceToJointTransforms_SE3(i) = se3(spaceToJointTransforms(:, :, i));
-            name(i)=strcat('joint_', num2str(i));
-        end
-        plotTransforms(spaceToJointTransforms_SE3,'FrameAxisLabels',"off",'FrameLabel',name)
-        Tvectors=trvec(spaceToJointTransforms_SE3);
-        plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
-
+    if(isnumeric(jointToJointTransforms))
+        basejoint_SE3=se3(jointToJointTransforms(:, :, 1));
+        endeffector_SE3 = se3(jointToJointTransforms(:, :, end));
+            plotTransforms(basejoint_SE3,'FrameAxisLabels',"off",'FrameLabel','frame1')
+            plotTransforms(endeffector_SE3,'FrameAxisLabels',"off",'FrameLabel','end_effector')
     else
         warning("Error: cannot plot symbolic values. Input numeric values to forward kinematics")
         err = -2;

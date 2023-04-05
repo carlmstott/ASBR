@@ -47,16 +47,13 @@ jointToJointTransforms(:, :, end)= BodyK;
 
 % if plotting is enabled
 if(plot)
+    jointToJointTransforms=double(jointToJointTransforms);
     figure; hold on; grid on;
     if(isnumeric(jointToJointTransforms))
-        for i = 1 : robot.numJoints
-            jointToJointTransforms_SE3(i) = se3(jointToJointTransforms(:, :, i));
-            name(i)=strcat("joint_", num2str(i));
-        end
-        plotTransforms(jointToJointTransforms_SE3,'FrameAxisLabels',"off",'FrameLabel',name)
-        Tvectors=trvec(jointToJointTransforms_SE3);
-        plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
-
+        basejoint_SE3=se3(jointToJointTransforms(:, :, 1));
+        endeffector_SE3 = se3(jointToJointTransforms(:, :, end));
+            plotTransforms(basejoint_SE3,'FrameAxisLabels',"off",'FrameLabel','frame1')
+            plotTransforms(endeffector_SE3,'FrameAxisLabels',"off",'FrameLabel','end_effector')
     else
         warning("Error: cannot plot symbolic values. Input numeric values to forward kinematics")
         err = -2;
