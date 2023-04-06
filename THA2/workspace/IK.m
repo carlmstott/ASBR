@@ -18,7 +18,7 @@ twist_error_EE_frame = MatLog(TransInv(T_base_ee) * desiredPoseTransMat);
 
 distanceError = norm(twist_error_EE_frame(4:6))
 
-pause(0.1)
+pause(.1)
 
 end
 end
