@@ -1,30 +1,14 @@
-%Inverse kinumatics test function, using 3DOF planer maniuplator
+% This script tests the DLS_inverse_kinematics using the Kuka KR120 robot.
+% The initial configuration input to the IK solver is a singulaarity. The
+% Solver detects this by calculating the isotropy (> inf at singularity)
+% and switches to using the Damped Least Squares algorithm. Once out of
+% singularity, it switches to using Newton-Raphson method to get the IK
+% solution"
 
 clear all;
 close all; clc;
 
-L = [1,2,3];
-
-% M = [1 0 0 L(1) + L(2) + L(3);
-%      0 1 0      0;
-%      0 0 1      0;
-%      0 0 0      1];
-% 
-% 
-% S = [0 0 0;
-%      0 0 0;
-%      1 1 1;
-%      0 0 0;
-%      0 -L(1) -L(1)-L(2);
-%      0 0 0;];
-% 
-%  B =[0,0,0;
-%      0,0,0;
-%      1,1,1;
-%      0,0,0;
-%      L(1)+L(2)+L(3),L(2)+L(3),L(3);
-%      0,0,0];
-
+% Screw Axes for a Kuka KR120
 M(:,:,1)=[1,0,0,0
       0,1,0,0
       0,0,1,0

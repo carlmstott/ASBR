@@ -1,3 +1,18 @@
+% brief: calculates inverse kinematics using Newton Raphson method while 
+% handling singularity configurations using Damped Least Squares method
+% robot: robot object consistig of the robot's kinematic properties
+% defined in defineRobot.m
+% currJointAngles: current robot configuration
+% desiredPoseTransMat: desired EE position as a translation matrix
+% maxIter: maximum number of iterations
+% threshDist: stopping criteria for translations
+% threshOr: stopping criteria for orientations
+% plot: boolean value to plot (or not) the robot's frames at each iteration
+% returns:
+% currJointAngles: joint configuration to achieve desired pose
+% err: error code
+
+
 function [currJointAngles, err] = DLS_inverse_kinematics(robot, currJointAngles, desiredPoseTransMat, maxIter, threshDist, threshOr, plot)
 desiredPoseTransMat = double(desiredPoseTransMat);
 i = 0;
@@ -11,6 +26,7 @@ orientationError = norm(twist_error_EE_frame(1:3));
 while ((i < maxIter) && (distanceError > threshDist) && (orientationError > threshOr))
     i = i + 1;
 
+    % isotropy approaches inf at singularity
     if(J_isptrophy(J_body(robot, currJointAngles)) > 1e4)
         isSingular = true;
     else
