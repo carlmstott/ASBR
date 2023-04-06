@@ -99,6 +99,10 @@ jointAngles = randi([-314, 314], robot.numJoints, 1) / 100; %joint angles used t
 [T, err] = FK_space(robot,jointAngles, 0); %this gives us the T we want to 
                                            %reach with our FK function
 
-EndConfig=IK(robot, randi([-314, 314], robot.numJoints, 1) / 100, T, 500);
+[EndConfig, err] = IK(robot, zeros(robot.numJoints, 1), T, 500,0.01, 0.01, false);
 
 [TafterIK, err] = FK_space(robot,EndConfig, 0);
+
+T
+
+TafterIK
