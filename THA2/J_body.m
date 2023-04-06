@@ -22,4 +22,9 @@ for i = (robot.numJoints -1) : -1 : 1
 end
 % append last column of jacobian equal to last screw axis
 Jb = [Jb B(:,robot.numJoints) ];
+
+if isnumeric(Jb)==0
+    Jb=simplify(Jb);
+end
+
 end

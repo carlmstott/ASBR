@@ -23,7 +23,7 @@ Vb=MatLog(Tbd); %W8L1S14, need twist vector of tbd for math in below line
 
 
 
-while  i < iterations && norm(vb(1:3))>OSC && norm(vb(4:6))>TSC any(isnan(Vb))==0 %My 2 conditions are if my loop runs 400
+while  i < iterations && norm(Vb(1:3))>OSC && norm(Vb(4:6))>TSC && any(isnan(Vb))==0 %My 2 conditions are if my loop runs 400
                                     %times of if my Vb is NaN, meaning my 
                                     %error is too small to matter, meaning
                                     %I have reached my desired position.
@@ -40,7 +40,7 @@ Jdagger=double(pinv(J)); %matlab pinv function makes the psudoinverse no
 
 CurrentConfig=CurrentConfig+Jdagger*Vb; %updating the current config
 
-clf(1)
+
 [TSB,~]=FK_space(robot,CurrentConfig,plot); %recalculating TSB with new  
                                             %configuration
 
@@ -53,7 +53,6 @@ Vb=MatLog(Tbd); %W8L2S14, recalculating
 
 normCount(i)=norm(Vb)
 i=i+1;
-pause(2);
 end
 
 EndConfig=CurrentConfig;

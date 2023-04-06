@@ -20,6 +20,13 @@ robot=defineRobot(M, S, Blist);
 
 [BodyK, err] = FK_body(robot,jointAngles, true)
 
+if isnumeric(BodyK)
+    FK_body=double(BodyK);
+else
+    T = simplify(BodyK);
+end
+
+
 
 %expected output is below, which is the same as the outcome provided in the
 %example. This is a good test becasue it contains both prismatic and

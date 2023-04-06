@@ -21,4 +21,7 @@ for i = 2: robot.numJoints
 end
 % prepend first column of jacobian equal to first screw axis.
 Js = [S(:,1) J];
+
+if isnumeric(Js)==0
+    Js=simplify(Js);
 end
