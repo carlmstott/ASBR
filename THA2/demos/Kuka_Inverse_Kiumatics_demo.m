@@ -73,12 +73,12 @@ S=double(S);
 %choose the below T, the inverse kinumatics algorithem will attempt to make
 %the kuka reach it!
 T=[1,0,0,5;
-    0,1,0,10;
+    0,1,0,5;
     0,0,1,5;
     0,0,0,1];
 
 %pick max iteration amount
-iterations=40;
+iterations=50;
 
 %pick orientation stopping criteria (error)
 OSC=.1;
