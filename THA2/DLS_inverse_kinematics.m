@@ -63,7 +63,7 @@ if(i == maxIter)
     disp(" did not converge")
     err = -1;
 else
-    err = 0
+    err = 0;
 end
 
 end
