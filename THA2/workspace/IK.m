@@ -39,7 +39,6 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     %calculate stopping criterion
     distanceError = norm(twist_error_EE_frame(4:6));
     orientationError = norm(twist_error_EE_frame(1:3));
-
     pause(0.1)
 
 end
