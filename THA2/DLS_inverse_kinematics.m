@@ -1,4 +1,4 @@
-function [currJointAngles, err] = IK(robot, currJointAngles, desiredPoseTransMat, maxIter, threshDist, threshOr, plot)
+function [currJointAngles, err] = DLS_inverse_kinematics(robot, currJointAngles, desiredPoseTransMat, maxIter, threshDist, threshOr, plot)
 desiredPoseTransMat = double(desiredPoseTransMat);
 i = 0;
 T_base_ee = FK_space(robot,currJointAngles, plot);
