@@ -1,6 +1,6 @@
 function twist=MatLog(TMatrix)
 
-Tmatrix=se3(TMatrix);
+Tmatrix=se3(double(TMatrix));
 
 if isequal(round(rotm(Tmatrix),4), eye(3))
     w=[0;0;0];
