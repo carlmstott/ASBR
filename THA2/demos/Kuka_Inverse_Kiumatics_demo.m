@@ -72,17 +72,18 @@ S=double(S);
 
 %choose the below T, the inverse kinumatics algorithem will attempt to make
 %the kuka reach it!
-T=[1,0,0,5;
-    0,1,0,5;
-    0,0,1,5;
-    0,0,0,1];
+T=[1   0    0     -10
+   0   1    0     10
+    0  0    1     10
+    0   0    0    1
+];
 
 %pick max iteration amount
-iterations=50;
+iterations=100;
 
 %pick orientation stopping criteria (error)
 OSC=.1;
-
+    
 %Pick Translatonal stopping criteria (error)
 TSC=.1;
 
@@ -92,7 +93,7 @@ plot=0;
 
 %robot starts at near base position, but not at base position becasue thats
 %in singularity
-EndConfig=J_inverse_kinumatics(robot, [0;0;0;0;0;0], T, iterations, OSC, TSC, plot)
+EndConfig=J_inverse_kinumatics_Kuka(robot, [0;0;0;0;0;0], T, iterations, OSC, TSC, plot);
 
 %now we plot the kuka to see how close it got to the desired end position
 [T, jointToJointTransforms, err] = Fk_Space_for_Kuka(robot,EndConfig, 0);

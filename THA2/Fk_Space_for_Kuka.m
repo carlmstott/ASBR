@@ -37,10 +37,14 @@ err = 0;
 
 
 if symbolic == 0
+%hold %this clears the FKspace plot from the past
 Tvectors=trvec(spaceToJointTransformsSE3); %extracts the translation vectors from the se3 objects, used for plotting
-name=["frame1";"frame2";"frame3";"frame4";"frame5";"frame6"];
+name=["F1";"F2";"F3";"F4";"F5";"F6"];
 plotTransforms(spaceToJointTransformsSE3,'FrameAxisLabels',"off",'FrameLabel',name)
-hold
+xlim([-20 20]);
+ylim([-20 20]);
+zlim([-20 20]);
+hold ON
 plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 end
 EndEffectorT=tform(spaceToJointTransformsSE3(6))
