@@ -4,9 +4,9 @@
 %directions of the axis's of the manuverability elipsoid in columns. ex,
 %column 1 of the output will have a scaler magnitude on top and direction
 %of axis in the bottom 3 spots
-%Params: jacobian, plot. if plot=1, then we are plotting
+%Params: jacobian, doWePlot. if plot=1, then we are plotting
 
-function Evector=ellipsoid_plot_linear(jacobian,plot)
+function Evector=ellipsoid_plot_linear(jacobian,doWePlot)
 
 J_v=jacobian(4:6,:); %refrence: W8L21S7
 J_vt=transpose(J_v);
@@ -31,7 +31,7 @@ ElipsoidDim = V*Evector;
 
 ElipsoidDim=abs(ElipsoidDim);
 
-if plot == 1
+if doWePlot == 1
 figure;
 ellipsoid(0,0,0, double(ElipsoidDim(1)), double(ElipsoidDim(2)), double(ElipsoidDim(3)))
 axis equal

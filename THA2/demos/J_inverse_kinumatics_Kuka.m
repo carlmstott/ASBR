@@ -7,7 +7,7 @@
 %OSC is orientation stopping criteria
 %TSC is translatonal stopping criteria
 
-function EndConfig=J_inverse_kinumatics(robot, CurrentConfig, xd, iterations, OSC, TSC, plot)
+function EndConfig=J_inverse_kinumatics_Kuka(robot, CurrentConfig, xd, iterations, OSC, TSC)
 i=1; %counter, used to make sure I only iterate a maximum of 2 times
 
 
@@ -59,13 +59,27 @@ normCount(i)=norm(Vb)
 i=i+1;
 end
 
+hold OFF %resetting for our ellipsoid and ellipsoid related data plots
 
-for i=1:Jstorage.length
+for i=1:length(Jstorage)
 
     subplot(2,2,1)
-    ellipsoid_plot_linear(Jstorage(i));
+    ellipsoid_plot_linear(Jstorage(:,:,i),1);
     subplot(2,2,2)
-    ellipsoid_plot_angular(J(i));
+    ellipsoid_plot_angular(Jstorage(:,:,i),1);
+    subplot(2,2,3)
+    [Liso(i), Aiso(i)]=J_isptrophy(Jstorage(:,:,i));
+    plot(Liso);
+    hold ON
+    plot(Aiso);
+    hold OFF
+    subplot(2,2,4)
+    [Lcondition(i),Acondition(i)]=J_condition(Jstorage(:,:,i))
+    plot(Lcondition)
+    hold ON
+    plot(Acondition)
+    hold OFF
+
     
 
 
