@@ -85,7 +85,7 @@ iterations=100;
 OSC=.1;
     
 %Pick Translatonal stopping criteria (error)
-TSC=.1;
+TSC=3;
 
 %pick if you want the IK function to plot everything (not reccomended for
 %speed)
@@ -93,8 +93,8 @@ TSC=.1;
 
 %robot starts at near base position, but not at base position becasue thats
 %in singularity
-EndConfig=J_inverse_kinumatics_Kuka(robot, [0;0;0;0;0;0], T, iterations, OSC, TSC);
+[Jlist,EndConfig]=J_inverse_kinumatics_Kuka(robot, [0;0;0;0;0;0], T, iterations, OSC, TSC);
 
 %now we plot the kuka to see how close it got to the desired end position
-[T, jointToJointTransforms, err] = Fk_Space_for_Kuka(robot,EndConfig, 0);
+%[T, jointToJointTransforms, err] = Fk_Space_for_Kuka(robot,EndConfig, 0);
 

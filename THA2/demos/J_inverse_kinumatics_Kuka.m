@@ -7,7 +7,7 @@
 %OSC is orientation stopping criteria
 %TSC is translatonal stopping criteria
 
-function EndConfig=J_inverse_kinumatics_Kuka(robot, CurrentConfig, xd, iterations, OSC, TSC)
+function [Jlist, EndConfig]=J_inverse_kinumatics_Kuka(robot, CurrentConfig, xd, iterations, OSC, TSC)
 i=1; %counter, used to make sure I only iterate a maximum of 2 times
 
 
@@ -16,7 +16,7 @@ i=1; %counter, used to make sure I only iterate a maximum of 2 times
                                 %it is clear that TSB is
 
 
-gif('kukaAnimationFunny.gif','Delaytime',1/5,'loopcount',15)
+gif('kukaAnimation.gif','Delaytime',1/4,'loopcount',15)
 
 Tbd=(double(TSB)^-1) * xd; %Tbd=Tbs*Tsd
 
@@ -33,14 +33,14 @@ while  i < iterations && (norm(Vb(1:3))>OSC || norm(Vb(4:6))>TSC) && any(isnan(V
 %I am using W8L1S14.
 
 J=J_body(robot, CurrentConfig);
-Jstorage(:,:,i)=J;
+Jlist(:,:,i)=J;
 Jdagger=double(pinv(J)); %matlab pinv function makes the psudoinverse no
 %matter what the shape 
 
 
 %these lines follow the IK algorithem described in w8L1S14
 
-CurrentConfig=CurrentConfig+Jdagger*Vb; %updating the current config
+CurrentConfig=CurrentConfig+.1*Jdagger*Vb; %updating the current config
 
 
 hold OFF
@@ -58,31 +58,6 @@ Vb=MatLog(Tbd); %W8L2S14, recalculating
 normCount(i)=norm(Vb)   
 i=i+1;
 end
-
-hold OFF %resetting for our ellipsoid and ellipsoid related data plots
-
-for i=1:length(Jstorage)
-
-    subplot(2,2,1)
-    ellipsoid_plot_linear(Jstorage(:,:,i),1);
-    subplot(2,2,2)
-    ellipsoid_plot_angular(Jstorage(:,:,i),1);
-    subplot(2,2,3)
-    [Liso(i), Aiso(i)]=J_isptrophy(Jstorage(:,:,i));
-    plot(Liso);
-    hold ON
-    plot(Aiso);
-    hold OFF
-    subplot(2,2,4)
-    [Lcondition(i),Acondition(i)]=J_condition(Jstorage(:,:,i))
-    plot(Lcondition)
-    hold ON
-    plot(Acondition)
-    hold OFF
-
-    
-
-
 
 EndConfig=CurrentConfig;
 
