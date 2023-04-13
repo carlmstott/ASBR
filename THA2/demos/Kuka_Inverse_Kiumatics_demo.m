@@ -93,7 +93,7 @@ TSC=3;
 
 %robot starts at near base position, but not at base position becasue thats
 %in singularity
-[Jlist,EndConfig]=J_inverse_kinumatics_Kuka(robot, [0;0;0;0;0;0], T, iterations, OSC, TSC);
+[normCountA, normCountL,Jlist,EndConfig]=J_inverse_kinumatics_Kuka(robot, [0;0;0;0;0;0], T, iterations, OSC, TSC);
 
 %now we plot the kuka to see how close it got to the desired end position
 %[T, jointToJointTransforms, err] = Fk_Space_for_Kuka(robot,EndConfig, 0);

@@ -7,7 +7,7 @@
 %OSC is orientation stopping criteria
 %TSC is translatonal stopping criteria
 
-function [Jlist, EndConfig]=J_inverse_kinumatics_Kuka(robot, CurrentConfig, xd, iterations, OSC, TSC)
+function [normCountA, normCountL, Jlist, EndConfig]=J_inverse_kinumatics_Kuka(robot, CurrentConfig, xd, iterations, OSC, TSC)
 i=1; %counter, used to make sure I only iterate a maximum of 2 times
 
 
@@ -16,7 +16,7 @@ i=1; %counter, used to make sure I only iterate a maximum of 2 times
                                 %it is clear that TSB is
 
 
-gif('kukaAnimation.gif','Delaytime',1/4,'loopcount',15)
+gif('kukaAnimation.gif','Delaytime',1/8,'loopcount',15)
 
 Tbd=(double(TSB)^-1) * xd; %Tbd=Tbs*Tsd
 
@@ -45,7 +45,7 @@ CurrentConfig=CurrentConfig+.1*Jdagger*Vb; %updating the current config
 
 hold OFF
 [TSB,~]=Fk_Space_for_Kuka(robot,CurrentConfig,0); %recalculating TSB with new  
-                                            %configuration
+                                                  %configuration
 gif
 
 Tbd=((double(TSB))^-1)*xd; %Tbd=(Tsb^-1)*xd (xd is Tsd), 
@@ -55,7 +55,8 @@ Vb=MatLog(Tbd); %W8L2S14, recalculating
 
 
 
-normCount(i)=norm(Vb)   
+normCountA(i)=norm(Vb(1:3));
+normCountL(i)=norm(Vb(4:6));
 i=i+1;
 end
 

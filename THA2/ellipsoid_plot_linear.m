@@ -33,7 +33,7 @@ ElipsoidDim=abs(ElipsoidDim);
 
 if doWePlot == 1
 %figure
-subplot(2,2,1);
+subplot(3,2,1);
 ellipsoid(0,0,0, double(ElipsoidDim(1)), double(ElipsoidDim(2)), double(ElipsoidDim(3)))
 axis equal
 title("Manipulability ellipsoid - translation")

@@ -47,5 +47,5 @@ zlim([-20 20]);
 hold ON
 plot3(Tvectors(:,1),Tvectors(:,2),Tvectors(:,3))
 end
-EndEffectorT=tform(spaceToJointTransformsSE3(6))
+EndEffectorT=tform(spaceToJointTransformsSE3(6));
 end

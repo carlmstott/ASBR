@@ -13,18 +13,26 @@
 % err: error code
 
 
-function [currJointAngles, err] = DLS_inverse_kinematics(robot, currJointAngles, desiredPoseTransMat, maxIter, threshDist, threshOr, plot)
+function [currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = DLS_inverse_kinematics(robot, currJointAngles, desiredPoseTransMat, maxIter, threshDist, threshOr, plot)
 desiredPoseTransMat = double(desiredPoseTransMat);
 i = 0;
-T_base_ee = FK_space(robot,currJointAngles, plot);
+T_base_ee = Fk_Space_for_Kuka(robot,currJointAngles, plot);
+
+gif('kukaAnimationDLS.gif','Delaytime',1/4,'loopcount',15)
+
 twist_error_EE_frame = MatLog(TransInv(T_base_ee) * desiredPoseTransMat);
 
 %calculate stopping criterion
 distanceError = norm(twist_error_EE_frame(4:6));
 orientationError = norm(twist_error_EE_frame(1:3));
 
+
 while ((i < maxIter) && (distanceError > threshDist) && (orientationError > threshOr))
     i = i + 1;
+    allJacobians(:,:,i) = J_body(robot, currJointAngles);
+    allNormTrans(i) = distanceError;
+    allNormOrient(i) = orientationError;
+
 
     % isotropy approaches inf at singularity
     if(J_isptrophy(J_body(robot, currJointAngles)) > 1e4)
@@ -33,7 +41,7 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
         isSingular = false;
     end
 
-
+hold OFF;
     if(~isSingular)
         % if robot is not singular, use Newton-Raphson
         currJointAngles = double(currJointAngles + pinv(J_body(robot, currJointAngles)) * twist_error_EE_frame);
@@ -49,7 +57,11 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     end
 
     % update
-    T_base_ee = double(FK_space(robot, currJointAngles, plot));
+    T_base_ee = double(Fk_Space_for_Kuka(robot, currJointAngles, plot));
+    if(isSingular)
+        text(20,20,12,"using DLS");
+    end
+gif
     twist_error_EE_frame = MatLog(TransInv(T_base_ee) * desiredPoseTransMat);
 
     %calculate stopping criterion

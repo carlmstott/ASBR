@@ -80,13 +80,22 @@ S=double(S);
 jointAngles = randi([-314, 314], robot.numJoints, 1) / 100; %joint angles used to generate a reachable T which
                             %will be the goal of our FK function
 
+%below is an example target end effector pose that was randomly generated
+% T=[0.3161   -0.9272    0.2011   -7.8102
+%     0.8429    0.3717    0.3890    7.1492
+%     -0.4354    0.0465    0.8990   16.0442
+%     0         0         0    1.0000]
+
+
 [T, err] = FK_space(robot,jointAngles, 0); %this gives us the T we want to 
                                            %reach with our FK function
 
-[EndConfig, err] = DLS_inverse_kinematics(robot, zeros(robot.numJoints, 1), T, 500,0.01, 0.01, false);
+[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = DLS_inverse_kinematics(robot, zeros(robot.numJoints, 1), T, 500,0.01, 0.01, false);
 
-[TafterIK, err] = FK_space(robot,EndConfig, 0);
+[TafterIK, err] = FK_space(robot,currJointAngles, 0);
 
 T
 
 TafterIK
+
+ellipsoidPlotter(allJacobians, allNormOrient, allNormTrans)
