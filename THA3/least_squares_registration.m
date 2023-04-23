@@ -25,7 +25,9 @@ R = V * transpose(U);
 
 % check R here ....
 
-p = B_centroid - R * A_centroid;
+p = transpose(B_centroid) - R * transpose(A_centroid);
+
+det(R)
 
 T = [R p; 0 0 0 1] ;
 
