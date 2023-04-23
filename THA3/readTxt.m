@@ -52,6 +52,16 @@ elseif contains(chars_Str, "calreadings")
     end
 
 elseif contains(chars_Str, "empivot")
+    N_G = C(1);
+    N_frames = C(2);
+
+    lines_per_frame = N_G;
+
+    for i = 1 : N_frames
+        for j = 1 : N_G
+            G_i(j, :, i) = str2num(lines((i-1)*lines_per_frame + j));
+        end
+    end
 
 elseif contains(chars_Str, "optpivot")
 
