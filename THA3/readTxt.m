@@ -72,10 +72,12 @@ elseif contains(chars_Str, "optpivot")
 
     for i = 1 : N_frames
         for j = 1 : N_D
-            D_i(j, :, i) = str2num(lines((i-1)*lines_per_frame + j))
+            D_i(j, :, i) = str2num(lines((i-1)*lines_per_frame + j));
         end
         for k = 1 : N_H
-            H_i(k, :, i) = str2num(lines((i-1)*lines_per_frame + k + N_D))
+            H_i(k, :, i) = str2num(lines((i-1)*lines_per_frame + k + N_D));
         end
     end
 end
+
+clear i j k l C chars_Str lines lines_per_frame
