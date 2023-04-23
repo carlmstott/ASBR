@@ -25,7 +25,7 @@ R = V * transpose(U);
 
 err = det(R);
 if abs(err - 1) > 1e-6
-    T = 0;
+    T = zeros(4,4);
     err = -1;
     return
 end
