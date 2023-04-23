@@ -64,6 +64,18 @@ elseif contains(chars_Str, "empivot")
     end
 
 elseif contains(chars_Str, "optpivot")
+    N_D = C(1);
+    N_H= C(2);
+    N_frames = C(3);
 
+    lines_per_frame = N_D + N_H;
 
+    for i = 1 : N_frames
+        for j = 1 : N_D
+            D_i(j, :, i) = str2num(lines((i-1)*lines_per_frame + j))
+        end
+        for k = 1 : N_H
+            H_i(k, :, i) = str2num(lines((i-1)*lines_per_frame + k + N_D))
+        end
+    end
 end
