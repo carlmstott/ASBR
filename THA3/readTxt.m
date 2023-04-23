@@ -1,5 +1,5 @@
 % lines = readlines('C:\Users\bhara\Documents\GitHub\ASBR\THA3\data\HW3-PA1\pa1-debug-a-calbody.txt');
-lines = readlines('C:\Users\bhara\Documents\GitHub\ASBR\THA3\data\HW3-PA1\pa1-debug-a-calreadings.txt');
+% lines = readlines('C:\Users\bhara\Documents\GitHub\ASBR\THA3\data\HW3-PA1\pa1-debug-a-calreadings.txt');
 
 chars_Str = convertStringsToChars(lines(1));
 C = regexp(chars_Str, ',', 'split');
@@ -41,16 +41,13 @@ elseif contains(chars_Str, "calreadings")
 
     for i = 1 : N_frames
         for j = 1 : N_D
-            (i-1)*27 + j
-            D_i(j, :, i) = str2num(lines((i-1)*lines_per_frame + j))
+            D_i(j, :, i) = str2num(lines((i-1)*lines_per_frame + j));
         end
         for k = 1 : N_A
-            (i-1)*27 + k + 1
-            A_i(k, :, i) = str2num(lines((i-1)*lines_per_frame + k + N_D))
+            A_i(k, :, i) = str2num(lines((i-1)*lines_per_frame + k + N_D));
         end
         for l = 1 : N_C
-            (i-1)*27 + l + 2
-            C_i(l, :, i) = str2num(lines((i-1)*lines_per_frame + l + N_D + N_A))
+            C_i(l, :, i) = str2num(lines((i-1)*lines_per_frame + l + N_D + N_A));
         end
     end
 
