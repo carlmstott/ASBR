@@ -12,8 +12,6 @@ G_centroid = mean(G_i(:, :, 1));
 % compute g_i
 for i = 1:N_frames
 g_i(:, :, i) = G_i(:, :, i) - G_centroid;
+[T, err] = least_squares_registration(g_i(:, :, i), G_i(:,:,i));
+[b_tip, b_post] = pivotCalibration(T)
 end
-
-[T, err] = least_squares_registration(g_i(:, :, 7), G_i(:,:,7));
-
-pivotCalibration(T)
