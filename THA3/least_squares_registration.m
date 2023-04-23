@@ -3,7 +3,7 @@
                                      % .
                                      % .
                                      %         ]
-function T = least_squares_registration(A, B)
+function [T, err] = least_squares_registration(A, B)
 
 % calculate centroids
 A_centroid = mean(A);
@@ -23,11 +23,14 @@ end
 
 R = V * transpose(U);
 
-% check R here ....
+err = det(R);
+if(err ~= 1)
+    T = 0;
+    err = -1;
+    return
+end
 
 p = transpose(B_centroid) - R * transpose(A_centroid);
-
-det(R)
 
 T = [R p; 0 0 0 1] ;
 
