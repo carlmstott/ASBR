@@ -23,11 +23,12 @@ end
 
 R = V * transpose(U);
 
+% check and fix det(R) = -1 by using its reflection. R' = V'transpose(U)
+% where V' = [v1 v2 -v3]
 err = det(R);
 if abs(err - 1) > 1e-6
-    T = zeros(4,4);
-    err = -1;
-    return
+    V(:, 3)=V(:, 3)*(-1);
+    R = V*transpose(U);
 end
 
 p = transpose(B_centroid) - R * transpose(A_centroid);
