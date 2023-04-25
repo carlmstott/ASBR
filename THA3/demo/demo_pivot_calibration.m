@@ -8,10 +8,20 @@ format long g
 % use the first frame to define a local probe coordinate system
 % calculate centroid
 G_centroid = mean(G_i(:, :, 1));
-
+figure; hold on;
 % compute g_i
 for i = 1:N_frames
-g_i(:, :, i) = G_i(:, :, i) - G_centroid;
-[T, err] = least_squares_registration(g_i(:, :, i), G_i(:,:,i));
-[b_tip, b_post] = pivotCalibration(T)
+    g_i(:, :, i) = G_i(:, :, i) - G_centroid;
+
+    [T, err] = least_squares_registration(g_i(:, :, i), G_i(:,:,i));
+
+    plotter(g_i(:, :, i), G_i(:,:,i), T)
+
+    T_tall(:, :, i) = T;
+    pause(2)
+
+    clf('reset')
+
 end
+
+[b_tip, b_post] = pivotCalibration(T_tall)
