@@ -67,7 +67,17 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     grad_H = gradient(H);
     grad_H = double(subs(grad_H, jointAngles, currJointAngles))
 
-    delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H;
+    % Calculate G funtion and its gradient for task space constraint to sphere
+
+
+
+    % delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H
+
+    %% if using lsqlin
+    A = -skew(twist_error_EE_frame(4:6))*J(1:3, :) + J(4:6, :);
+    B = 3-twist_error_EE_frame(4:6) + desiredPoseTransMat(1:3, 4);
+    % delta_theta = lsqlin(J, twist_error_EE_frame, A, B,[],[],(jointLimits_min-currJointAngles), (jointLimits_max - currJointAngles))
+    delta_theta = lsqlin(ones(6,6), zeros(6,1), A, B,[],[],(jointLimits_min-currJointAngles), (jointLimits_max - currJointAngles))
     currJointAngles = double(currJointAngles + delta_theta);
 
     comparison = ((currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)) / 2;
@@ -93,7 +103,7 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     text(75, 20, -50, "Orientation error = ")
     text(85,20,-55,num2str(orientationError));
 
-    pause(0.3)
+    pause(0.1)
 
 
     if(i == maxIter)

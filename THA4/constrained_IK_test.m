@@ -92,7 +92,7 @@ jointAngles = randi([-243, -9], robot.numJoints, 1) / 100; %joint angles used to
 
 Input_Joint_Angles = jointAngles
 
-[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, randi([-243, -9], robot.numJoints, 1) / 100, T, 500,0.01, 0.01, false);
+[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, randi([-243, -9], robot.numJoints, 1) / 100, T, 500,0.05, 0.01, false);
 
 Output_Joint_Angles = currJointAngles 
 
