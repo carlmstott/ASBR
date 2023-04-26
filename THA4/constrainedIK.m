@@ -35,13 +35,14 @@ jointLimits_min = deg2rad([-185;
 
 jointLimits_max = deg2rad([185;
     -5;
-    -168;
+    168;
     350;
     125;
     350;] / 2);
 
 jointLimits_median = (jointLimits_min + jointLimits_max) / 2;
 
+comparison = (currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)
 
 while ((i < maxIter) && (distanceError > threshDist) && (orientationError > threshOr))
     i = i + 1;
@@ -64,23 +65,35 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     end
     H = H / robot.numJoints;
     grad_H = gradient(H);
-
     grad_H = double(subs(grad_H, jointAngles, currJointAngles))
 
-    delta_theta = 0.1 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10* grad_H;
+    delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H;
     currJointAngles = double(currJointAngles + delta_theta);
 
-    rad2deg(currJointAngles)
+    comparison = ((currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)) / 2;
+
 
     % update
     T_base_ee = double(Fk_Space_for_Kuka(robot, currJointAngles, plot));
     gif
     twist_error_EE_frame = MatLog(TransInv(T_base_ee) * desiredPoseTransMat);
+    
+    text(75, 20, -24, "Joints In Range = ")
+    text(90,20,-30,num2str(comparison));
 
+    text(-63, 20, 15, "Joint Positions = ")
+    text(-50,20,10,num2str(currJointAngles))
+    
     %calculate stopping criterion
     distanceError = norm(twist_error_EE_frame(4:6));
     orientationError = norm(twist_error_EE_frame(1:3));
-    pause(0.1)
+
+    text(75, 20, -40, "Linear error = ")
+    text(85, 20, -45,num2str(distanceError));
+    text(75, 20, -50, "Orientation error = ")
+    text(85,20,-55,num2str(orientationError));
+
+    pause(0.3)
 
 
     if(i == maxIter)

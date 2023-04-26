@@ -75,9 +75,9 @@ B=double(B);
 
 S=double(S);
  
- robot = defineRobot(M, S, B);
+robot = defineRobot(M, S, B);
 
-jointAngles = randi([-314, 314], robot.numJoints, 1) / 100; %joint angles used to generate a reachable T which
+jointAngles = randi([-243, -9], robot.numJoints, 1) / 100; %joint angles used to generate a reachable T which
                             %will be the goal of our FK function
 
 %below is an example target end effector pose that was randomly generated
@@ -90,7 +90,11 @@ jointAngles = randi([-314, 314], robot.numJoints, 1) / 100; %joint angles used t
 [T, err] = FK_space(robot,jointAngles, 0); %this gives us the T we want to 
                                            %reach with our FK function
 
-[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, randi([-174, 174], robot.numJoints, 1) / 100, T, 500,0.01, 0.01, false);
+Input_Joint_Angles = jointAngles
+
+[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, randi([-243, -9], robot.numJoints, 1) / 100, T, 500,0.01, 0.01, false);
+
+Output_Joint_Angles = currJointAngles 
 
 [TafterIK, err] = FK_space(robot,currJointAngles, 0);
 
