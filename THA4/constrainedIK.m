@@ -70,7 +70,7 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
     end
     H = H / robot.numJoints;
     grad_H = gradient(H);
-    grad_H = double(subs(grad_H, jointAngles, currJointAngles))
+    grad_H = double(subs(grad_H, jointAngles, currJointAngles));
 
     % Calculate G funtion and its gradient for task space constraint to
     % sphere
@@ -78,7 +78,7 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
     
     FKspace_sym=FK_space(robot,jointAngles,0); 
 
-    G = norm(FKspace_sym(1:3,4)-desiredPoseTransMat(1:3,4))/radius_of_sphere;
+    G = norm(FKspace_sym(1:3,4)-desiredPoseTransMat(1:3,4))/radius_of_sphere
     grad_G = gradient(G);
     grad_G = double(subs(grad_G, jointAngles, currJointAngles));
 
@@ -110,9 +110,9 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
     text(75, 20, -50, "Orientation error = ")
     text(85,20,-55,num2str(orientationError));
 
-gif %carl added this, might fix it
+gif 
 
-    %pause(0.3)
+ 
 
 
     if(i == maxIter)

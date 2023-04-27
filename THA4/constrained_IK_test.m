@@ -37,7 +37,7 @@ M(:,:,5)=[1,0,0,0
 
 M(:,:,6)=[1,0,0,0
           0,1,0,17.65
-          0,0,1,20.10 %100mm added here
+          0,0,1,19.20 %100mm added here
           0,0,0,1];
 
 
@@ -96,7 +96,7 @@ T = [0.7972          -0.4603         0.3907        -13.2557;
          0       0                     0            1]
 Input_Joint_Angles = jointAngles
 
-[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, jointAngles, T, 500,0.1, 0.01, false);
+[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, jointAngles, T, 500,0.3, 0.01, false);
 
 Output_Joint_Angles = currJointAngles 
 
