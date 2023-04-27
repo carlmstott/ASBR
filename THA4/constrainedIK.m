@@ -71,9 +71,15 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     % sphere
     radius_of_sphere = 3;
     
+    FKspace_sym=FK_space(robot,jointAngles,0); 
+
+    G = norm(FKspace_sym(1:3,4)-desiredPoseTransMat(1:3,4))/radius_of_sphere;
+    grad_G = gradient(G);
+    grad_G = double(subs(grad_G, jointAngles, currJointAngles));
 
 
-    delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H;
+
+    delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H + (eye(robot.numJoints) - J_dagger * J) * 10000000 * grad_G;
     currJointAngles = double(currJointAngles + delta_theta);
 
     comparison = ((currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)) / 2;
