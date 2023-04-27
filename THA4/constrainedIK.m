@@ -92,7 +92,7 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
 
     % update
     T_base_ee = double(Fk_Space_for_Kuka(robot, currJointAngles, plot));
-    gif
+    %gif
     twist_error_EE_frame = MatLog(TransInv(T_base_ee) * desiredPoseTransMat);
     
     text(75, 20, -24, "Joints In Range = ")
@@ -110,7 +110,9 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
     text(75, 20, -50, "Orientation error = ")
     text(85,20,-55,num2str(orientationError));
 
-    pause(0.3)
+gif %carl added this, might fix it
+
+    %pause(0.3)
 
 
     if(i == maxIter)
