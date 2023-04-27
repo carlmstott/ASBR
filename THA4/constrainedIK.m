@@ -47,7 +47,7 @@ jointLimits_max = deg2rad([185;
 
 jointLimits_median = (jointLimits_min + jointLimits_max) / 2;
 
-comparison = (currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)
+comparison = (currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max);
 
 while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > threshOr)))
     i = i + 1;
@@ -78,7 +78,7 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
     
     FKspace_sym=FK_space(robot,jointAngles,0); 
 
-    G = norm(FKspace_sym(1:3,4)-desiredPoseTransMat(1:3,4))/radius_of_sphere
+    G = (norm(FKspace_sym(1:3,4)-desiredPoseTransMat(1:3,4))/radius_of_sphere) ^ 2;
     grad_G = gradient(G);
     grad_G = double(subs(grad_G, jointAngles, currJointAngles));
 
