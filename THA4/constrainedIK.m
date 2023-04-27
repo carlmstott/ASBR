@@ -74,10 +74,12 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     % delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H
 
     %% if using lsqlin
-    A = -skew(twist_error_EE_frame(4:6))*J(1:3, :) + J(4:6, :);
-    B = 3-twist_error_EE_frame(4:6) + desiredPoseTransMat(1:3, 4);
-    % delta_theta = lsqlin(J, twist_error_EE_frame, A, B,[],[],(jointLimits_min-currJointAngles), (jointLimits_max - currJointAngles))
-    delta_theta = lsqlin(ones(6,6), zeros(6,1), A, B,[],[],(jointLimits_min-currJointAngles), (jointLimits_max - currJointAngles))
+    A = -skew(desiredPoseTransMat(1:3, 4)) * J(1:3, :) + J(4:6, :); % t = current end effector location
+    B = -twist_error_EE_frame(4:6) + desiredPoseTransMat(1:3, 4);
+    % delta_theta = lsqlin(J, twist_error_EE_frame, [], [],[],[],(jointLimits_min-currJointAngles), (jointLimits_max - currJointAngles))
+    delta_theta = lsqlin(eye(6,6), zeros(6,1), A, B,[],[],(jointLimits_min-currJointAngles), (jointLimits_max - currJointAngles))
+    
+    
     currJointAngles = double(currJointAngles + delta_theta);
 
     comparison = ((currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)) / 2;
