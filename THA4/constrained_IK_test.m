@@ -86,13 +86,17 @@ jointAngles = randi([-243, -9], robot.numJoints, 1) / 100; %joint angles used to
 %     -0.4354    0.0465    0.8990   16.0442
 %     0         0         0    1.0000]
 
+jointAngles = [-1.86; -0.59; -1.7453; -1.51; -2.43; -1.92];
 
 [T, err] = FK_space(robot,jointAngles, 0); %this gives us the T we want to 
                                            %reach with our FK function
-
+T = [0.7972          -0.4603         0.3907        -13.2557;
+      0.5705         0.7860       -0.2382       8.5137;
+       -0.1974       0.4129         0.8891        24.5323;
+         0       0                     0            1]
 Input_Joint_Angles = jointAngles
 
-[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, randi([-243, -9], robot.numJoints, 1) / 100, T, 500,0.01, 0.01, false);
+[currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, jointAngles, T, 500,0.1, 0.01, false);
 
 Output_Joint_Angles = currJointAngles 
 
