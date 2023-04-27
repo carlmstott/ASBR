@@ -70,7 +70,7 @@ while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > thr
     end
     H = H / robot.numJoints;
     grad_H = gradient(H);
-    grad_H = double(subs(grad_H, jointAngles, currJointAngles))
+    grad_H = double(subs(grad_H, jointAngles, currJointAngles));
 
     % Calculate G funtion and its gradient for task space constraint to
     % sphere
