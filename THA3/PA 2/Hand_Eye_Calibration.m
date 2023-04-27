@@ -1,10 +1,4 @@
-%solving the ax=xb equation using quartornian method
-%script written by Carl Stott on 4/23/22
-
-clear all;
-
-[q_Robot_config, q_camera_config,t_Robot_config,t_camera_config ] = noisy_Data();
-
+function X = Hand_Eye_Calibration(q_Robot_config, q_camera_config,t_Robot_config,t_camera_config )
 %creating my M matrix (reference W12L1 slide 12)
 for i=1:length(q_Robot_config)
 
@@ -58,7 +52,8 @@ RaMinusI=reshape(RaMinusI,i*3,3);
 %reshaping my stack of Rx*Tb-Ta's to make a tall matrix
 stack=reshape(stack,i*3,1);
 
-Tx=lsqr(RaMinusI,stack);
+Tx=lsqr(RaMinusI,stack)
 
 X=[Rx,Tx
-   0,0,0,1];
+   0,0,0,1]
+end
