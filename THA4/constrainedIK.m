@@ -67,6 +67,12 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
     grad_H = gradient(H);
     grad_H = double(subs(grad_H, jointAngles, currJointAngles))
 
+    % Calculate G funtion and its gradient for task space constraint to
+    % sphere
+    radius_of_sphere = 3;
+    
+
+
     delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H;
     currJointAngles = double(currJointAngles + delta_theta);
 
