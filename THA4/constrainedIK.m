@@ -14,6 +14,11 @@
 
 
 function [currJointAngles, allJacobians, allNormOrient, allNormTrans, err] = constrainedIK(robot, currJointAngles, desiredPoseTransMat, maxIter, threshDist, threshOr, plot)
+allJacobians=[];
+allNormOrient = [];
+allNormTrans = [];
+err = [];
+
 desiredPoseTransMat = double(desiredPoseTransMat);
 i = 0;
 T_base_ee = Fk_Space_for_Kuka(robot,currJointAngles, plot);
@@ -38,13 +43,13 @@ jointLimits_max = deg2rad([185;
     168;
     350;
     125;
-    350;] / 2);
+    350;]);
 
 jointLimits_median = (jointLimits_min + jointLimits_max) / 2;
 
 comparison = (currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)
 
-while ((i < maxIter) && (distanceError > threshDist) && (orientationError > threshOr))
+while ((i < maxIter) && ((distanceError > threshDist) || (orientationError > threshOr)))
     i = i + 1;
     allJacobians(:,:,i) = J_body(robot, currJointAngles);
     allNormTrans(i) = distanceError;
@@ -79,7 +84,7 @@ while ((i < maxIter) && (distanceError > threshDist) && (orientationError > thre
 
 
 
-    delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H + (eye(robot.numJoints) - J_dagger * J) * 10000000 * grad_G;
+    delta_theta = 0.07 * J_dagger * twist_error_EE_frame + (eye(robot.numJoints) - J_dagger * J) * 10000* grad_H + (eye(robot.numJoints) - J_dagger * J) * 7000000000 * grad_G;
     currJointAngles = double(currJointAngles + delta_theta);
 
     comparison = ((currJointAngles >= jointLimits_min) + (currJointAngles <= jointLimits_max)) / 2;

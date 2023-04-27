@@ -1,8 +1,21 @@
-% A and B are column vectors i.e. A = [x1 y1 z1; 
+% brief: this function registers (finds a transfrom from point cloud B to
+% point cloud A)
+% params:
+% A: point cloud A column vector i.e. A = [x1 y1 z1; 
                                      % x2 y2 z2;
                                      % .
                                      % .
                                      %         ]
+% B: point cloud B column vector i.e. B = [x1 y1 z1; 
+                                     % x2 y2 z2;
+                                     % .
+                                     % .
+                                     %         ]
+% returns:
+% T: transfromation matrix from B to A
+% err: determinant of the rotation matrix. This is not necessarily the
+% determinant of the final rotation matrix outputed from this algorithm
+
 function [T, err] = least_squares_registration(A, B)
 
 % calculate centroids
